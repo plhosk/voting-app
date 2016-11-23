@@ -7,9 +7,10 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": " webpack -w & node ./server/server.js",
-    "prod": " webpack -p; node ./server/server.js"
+    "prod": " webpack -p node ./server/server.js"
   },
   "dependencies": {
+    "babel-preset-stage-2": "^6.18.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "connect-flash": "^0.1.1",
@@ -22,7 +23,9 @@
     "passport-local": "^1.0.0",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
-    "react-router": "^3.0.0",
+    "react-router": "^4.0.0-alpha.6",
+    "react-router-addons-controlled": "0.0.1",
+    "redux-freeze": "^0.1.5",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {

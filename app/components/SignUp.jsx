@@ -1,11 +1,10 @@
-import React from 'react';
-let {hashHistory} = require('react-router');
+import React from 'react'
 
 class Signup extends React.Component {
     onFormSubmit(event) {
-        event.preventDefault();
-        var username = this.refs.username.value;
-        var password = this.refs.password.value;
+        event.preventDefault()
+        var username = this.refs.username.value
+        var password = this.refs.password.value
         if (username.length == 0 || password.length == 0) {
             //show username error
         }
@@ -21,11 +20,18 @@ class Signup extends React.Component {
                 })
             }).then(function (response) {
                 if (response.status == 200) {
-                    hashHistory.push('/login');                }
-                else {
-                    alert("Sign up failed! most likely user name is not available");
+                    // hashHistory.push('/login')
+                    //location.href = '/login'
+                    this.props.dispatch({
+                      type: 'NAVIGATE',
+                      location: { pathname: '/' },
+                      action: 'PUSH'
+                    })
                 }
-            });
+                else {
+                    alert("Sign up failed! most likely user name is not available")
+                }
+            })
         }
     }
 
@@ -38,8 +44,8 @@ class Signup extends React.Component {
                 <input ref="password" type="password" className="form-control" placeholder="Password" required/>
                 <input type="submit" value="Sign up" className="btn btn-primary btn-block"/>
             </form>
-        </div>);
+        </div>)
     }
 }
 
-export default Signup;
+export default Signup

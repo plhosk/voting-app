@@ -1,14 +1,13 @@
-import React from 'react';
-import {hashHistory} from 'react-router';
-import {connect} from 'react-redux';
+import React from 'react'
+import {connect} from 'react-redux'
 import {updateUserObject} from 'AuthenticationActions'
 
 class LoginComponent extends React.Component {
     onLoginSubmit(event) {
-        event.preventDefault();
+        event.preventDefault()
 
-        var username = this.refs.username.value;
-        var password = this.refs.password.value;
+        var username = this.refs.username.value
+        var password = this.refs.password.value
 
         if (username.length == 0 || password.length == 0) {
             //show input error
@@ -28,21 +27,27 @@ class LoginComponent extends React.Component {
 
                 if(response.status == 200) {
                     response.json().then(function(user) {
-                        this.props.updateUser(user);
-                        hashHistory.push('/');
-                    }.bind(this));
+                        this.props.updateUser(user)
+                        // hashHistory.push('/')
+                        //location.href = '/'
+                        this.props.navigate({
+                          type: 'NAVIGATE',
+                          location: { pathname: '/' },
+                          action: 'PUSH'
+                        })
+                    }.bind(this))
                 }
                 else {
-                    alert("Login failed");
-                    console.log("Login failed");
+                    alert("Login failed")
+                    console.log("Login failed")
                 }
-            }.bind(this));
+            }.bind(this))
         }
     }
 
     render() {
         if(this.props.user) {
-            return <div className="container"><h1>You are logged already in!</h1></div>;
+            return <div className="container"><h1>You are logged already in!</h1></div>
         }
 
         return (
@@ -55,16 +60,17 @@ class LoginComponent extends React.Component {
                     <input type="submit" value="Log in" className="btn btn-primary btn-block"/>
                 </form>
             </div>
-        );
+        )
     }
 }
 
 const mapStateToProps = state => ({
-    user: state.user
-});
+    user: state.authentication.user
+})
 
 const mapDispatchToProps = dispatch => ({
-    updateUser: (user) => dispatch(updateUserObject(user))
-});
+    updateUser: (user) => dispatch(updateUserObject(user)),
+    navigate: (obj) => dispatch(obj)
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent)

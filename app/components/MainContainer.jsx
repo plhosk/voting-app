@@ -1,5 +1,5 @@
-import React from 'react';
-import NavigationBar from 'NavigationBar';
+import React from 'react'
+import NavigationBar from 'NavigationBar'
 
 class MainContainer extends React.Component {
     render() {
@@ -8,8 +8,8 @@ class MainContainer extends React.Component {
                 <NavigationBar/>
                 {this.props.children}
             </div>
-        );
+        )
     }
-};
+}
 
-export default MainContainer;
+export default MainContainer
