@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {navigate} from 'redux/router'
 
 class Signup extends React.Component {
     onFormSubmit(event) {
@@ -20,18 +22,12 @@ class Signup extends React.Component {
                 })
             }).then(function (response) {
                 if (response.status == 200) {
-                    // hashHistory.push('/login')
-                    //location.href = '/login'
-                    this.props.dispatch({
-                      type: 'NAVIGATE',
-                      location: { pathname: '/' },
-                      action: 'PUSH'
-                    })
+                    this.props.navigate({ pathname: '/login' }, 'PUSH')
                 }
                 else {
                     alert("Sign up failed! most likely user name is not available")
                 }
-            })
+            }.bind(this))
         }
     }
 
@@ -48,4 +44,12 @@ class Signup extends React.Component {
     }
 }
 
-export default Signup
+Signup.propTypes = {
+  navigate: PropTypes.func
+}
+
+const mapDispatchToProps = dispatch => ({
+    navigate: (location, action) => dispatch(navigate(location, action))
+})
+
+export default connect(null, mapDispatchToProps)(Signup)

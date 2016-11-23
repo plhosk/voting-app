@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {updateUserObject} from 'AuthenticationActions'
+import {updateUserObject} from 'redux/authentication'
+import {navigate} from 'redux/router'
 
 class LoginComponent extends React.Component {
     onLoginSubmit(event) {
@@ -30,16 +31,11 @@ class LoginComponent extends React.Component {
                         this.props.updateUser(user)
                         // hashHistory.push('/')
                         //location.href = '/'
-                        this.props.navigate({
-                          type: 'NAVIGATE',
-                          location: { pathname: '/' },
-                          action: 'PUSH'
-                        })
+                        this.props.navigate({ pathname: '/' },'PUSH')
                     }.bind(this))
                 }
                 else {
                     alert("Login failed")
-                    console.log("Login failed")
                 }
             }.bind(this))
         }
@@ -64,13 +60,19 @@ class LoginComponent extends React.Component {
     }
 }
 
+LoginComponent.propTypes = {
+  user: PropTypes.object,
+  updateUser: PropTypes.func,
+  navigate: PropTypes.func
+}
+
 const mapStateToProps = state => ({
     user: state.authentication.user
 })
 
 const mapDispatchToProps = dispatch => ({
     updateUser: (user) => dispatch(updateUserObject(user)),
-    navigate: (obj) => dispatch(obj)
+    navigate: (location, action) => dispatch(navigate(location, action))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 
 class IndexUser extends React.Component {
     render() {
@@ -8,6 +8,9 @@ class IndexUser extends React.Component {
             </div>
         )
     }
+}
+IndexUser.propTypes = {
+  userName: PropTypes.string
 }
 
 export default IndexUser

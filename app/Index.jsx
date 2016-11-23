@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import UserIndexComponent from 'IndexUser'
 import GuestIndexComponent from 'IndexGuest'
 import {connect} from 'react-redux'
@@ -12,6 +12,9 @@ class Index extends React.Component {
            return <GuestIndexComponent/>
        }
    }
+}
+Index.propTypes = {
+  user: PropTypes.object
 }
 
 const mapStateToProps = state => ({

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import NavigationBar from 'NavigationBar'
 
 class MainContainer extends React.Component {
@@ -10,6 +10,9 @@ class MainContainer extends React.Component {
             </div>
         )
     }
+}
+MainContainer.propTypes = {
+  children: PropTypes.any
 }
 
 export default MainContainer

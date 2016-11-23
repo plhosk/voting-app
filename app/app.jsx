@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
-import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider, connect } from 'react-redux'
 import Router from 'react-router-addons-controlled/ControlledBrowserRouter'
 import { Match } from 'react-router'
@@ -12,9 +12,10 @@ import MainContainer from 'MainContainer'
 import Index from 'Index'
 import Login from 'Login'
 import Signup from 'Signup'
-import authenticationReducer from 'AuthenticationReducer'
 
-const NAVIGATE = 'NAVIGATE'
+import reducer from 'redux/reducer'
+
+import { navigate } from 'redux/router'
 
 const initialState = {
   router: {
@@ -24,64 +25,31 @@ const initialState = {
   authentication: {}
 }
 
-const routerReducer = (state = initialState, action) => {
-  if (action.type === NAVIGATE) {
-    return {
-      ...state,
-      location: action.location,
-      action: action.action
-    }
-  } else {
-    return state
-  }
-}
-
-const reducer =  combineReducers({
-  router: routerReducer,
-  authentication: authenticationReducer
-})
-
 const store = createStore(
   reducer, initialState,
   compose(
     applyMiddleware(freeze),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
-  )
-
-
-
-// const clientOnlyStore = createStore(
-//   //yourReducer,
-//   authenticationReducer,
-//   initialState,
-//   compose(
-//     routerEnhancer,
-//     applyMiddleware(
-//       routerMiddleware,
-//       freeze // Remove in production version
-//     )
-//   )
-// )
-
-// const initialLocation = clientOnlyStore.getState().router;
-// if (initialLocation) {
-//   clientOnlyStore.dispatch(initializeCurrentLocation(initialLocation));
-// }
-
-
+)
 
 const App = connect((state) => {
   return {
     location: state.router.location,
     action: state.router.action
   }
-})(class App extends React.Component {
+},
+(dispatch) => {
+  return {
+    navigate: (location, action) => dispatch(navigate(location, action))
+  }
+}
+)(class App extends React.Component {
 
   static propTypes = {
     location: PropTypes.object,
     action: PropTypes.string,
-    dispatch: PropTypes.func,
+    navigate: PropTypes.func,
   }
 
   render() {
@@ -95,19 +63,11 @@ const App = connect((state) => {
           // because, guess what? you can't actual control the browser history!
           // anyway, use your current action not "SYNC"
           if (action === 'SYNC') {
-            this.props.dispatch({
-              type: NAVIGATE,
-              location,
-              action: this.props.action
-            })
+            this.props.navigate(location, this.props.action)
           } else if (!window.block) {
             // if you want to block transitions go into the console and type in
             // `window.block = true` and transitions won't happen anymore
-            this.props.dispatch({
-              type: NAVIGATE,
-              location,
-              action
-            })
+            this.props.navigate(location, action)
           } else {
             console.log('blocked!') // eslint-disable-line
           }

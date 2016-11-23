@@ -1,15 +1,13 @@
 module.exports = {
-  entry: ['whatwg-fetch', './app/app.jsx'],
+  entry: ['whatwg-fetch', './app/App.jsx'],
   output: {
-    path: __dirname,
-    filename: './public/bundle.js'
+    path: __dirname + '/public',
+    filename: 'bundle.js'
   },
   resolve: {
-    root: __dirname,
+    root: __dirname + '/app',
     modulesDirectories: [
         'node_modules',
-        './app/components',
-        './app/redux'
     ],
     extensions: ['', '.js', '.jsx']
   },

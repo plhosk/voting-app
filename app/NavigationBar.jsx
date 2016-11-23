@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
 
-import {removeUserObject} from 'AuthenticationActions'
-
+import {removeUserObject} from 'redux/authentication'
+import { navigate } from 'redux/router'
 
 class NavigationBar extends React.Component {
 
@@ -11,11 +11,8 @@ class NavigationBar extends React.Component {
         this.props.clearUserData()
         // hashHistory.push('/')
         //location.href = '/'
-        this.props.dispatch({
-          type: 'NAVIGATE',
-          location: { pathname: '/' },
-          action: 'PUSH'
-        })
+        this.props.navigate( { pathname: '/' }, 'PUSH')
+
     }
 
     navBarContent(user) {
@@ -47,12 +44,19 @@ class NavigationBar extends React.Component {
     }
 }
 
+NavigationBar.propTypes = {
+  user: PropTypes.object,
+  clearUserData: PropTypes.func,
+  navigate: PropTypes.func
+}
+
 const mapStateToProps = state => ({
     user: state.authentication.user
 })
 
 const mapDispatchToProps = dispatch => ({
-    clearUserData: () => dispatch(removeUserObject())
+    clearUserData: () => dispatch(removeUserObject()),
+    navigate: (location, action) => dispatch(navigate(location, action))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar)
