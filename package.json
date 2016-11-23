@@ -8,7 +8,7 @@
   "engines": {
     "node": "7.2.0",
     "npm": "4.0.3"
-  }
+  },
   "scripts": {
     "start": " webpack -w & node ./server/server.js",
     "prod": " webpack -p; node ./server/server.js",
