@@ -28,8 +28,8 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.static('public'))
-app.use('/signup', require('./api/signup'))
-app.use('/login', require('./api/login'))
+app.use('/auth/signup', require('./api/signup'))
+app.use('/auth/login', require('./api/login'))
 
 app.listen(app.get("port"), function () {
   console.log("Server started on port " + app.get("port"))

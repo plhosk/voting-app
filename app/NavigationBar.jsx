@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
 
-import {removeUserObject} from 'redux/authentication'
-import { navigate } from 'redux/router'
+import {removeUserObject} from 'auth/authDuck'
+import { navigate } from 'routerDuck'
 
 class NavigationBar extends React.Component {
 
@@ -25,8 +25,8 @@ class NavigationBar extends React.Component {
         else {
             return (
                 <ul className="nav navbar-nav navbar-right">
-                    <li><Link to="/login">Log in</Link></li>
-                    <li><Link to="/signup">Sign up</Link></li>
+                    <li><Link to="/auth/login">Log in</Link></li>
+                    <li><Link to="/auth/signup">Sign up</Link></li>
                 </ul>)
         }
     }
@@ -51,7 +51,7 @@ NavigationBar.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    user: state.authentication.user
+    user: state.auth.user
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {navigate} from 'redux/router'
+import {navigate} from 'routerDuck'
 
 class Signup extends React.Component {
     onFormSubmit(event) {
@@ -11,7 +11,7 @@ class Signup extends React.Component {
             //show username error
         }
         else {
-            fetch('/signup', {
+            fetch('/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ class Signup extends React.Component {
                 })
             }).then(function (response) {
                 if (response.status == 200) {
-                    this.props.navigate({ pathname: '/login' }, 'PUSH')
+                    this.props.navigate({ pathname: '/auth/login' }, 'PUSH')
                 }
                 else {
                     alert("Sign up failed! most likely user name is not available")

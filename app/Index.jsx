@@ -18,7 +18,7 @@ Index.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    user: state.authentication.user
+    user: state.auth.user
 })
 
 export default connect(mapStateToProps)(Index)

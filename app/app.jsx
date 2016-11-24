@@ -10,23 +10,23 @@ const history = createBrowserHistory()
 
 import MainContainer from 'MainContainer'
 import Index from 'Index'
-import Login from 'Login'
-import Signup from 'Signup'
+import Login from 'auth/Login'
+import Signup from 'auth/Signup'
 
-import reducer from 'redux/reducer'
+import reducers from 'reducers'
 
-import { navigate } from 'redux/router'
+import { navigate } from 'routerDuck'
 
 const initialState = {
   router: {
     location: history.location,
     action: history.action
   },
-  authentication: {}
+  auth: {}
 }
 
 const store = createStore(
-  reducer, initialState,
+  reducers, initialState,
   compose(
     applyMiddleware(freeze),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -76,8 +76,8 @@ const App = connect((state) => {
         
         <MainContainer>
           <Match pattern="/" exactly component={Index}/>
-          <Match pattern="/login" exactly component={Login}/>
-          <Match pattern="/signup" exactly component={Signup}/>
+          <Match pattern="/auth/login" exactly component={Login}/>
+          <Match pattern="/auth/signup" exactly component={Signup}/>
         </MainContainer>
       </Router>
     )

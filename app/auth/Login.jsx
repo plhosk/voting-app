@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {updateUserObject} from 'redux/authentication'
-import {navigate} from 'redux/router'
+import {updateUserObject} from 'auth/authDuck'
+import {navigate} from 'routerDuck'
 
 class LoginComponent extends React.Component {
     onLoginSubmit(event) {
@@ -14,7 +14,7 @@ class LoginComponent extends React.Component {
             //show input error
         }
         else {
-            fetch('/login', {
+            fetch('/auth/login', {
                 credentials: 'same-origin',
                 method: 'POST',
                 headers: {
@@ -67,7 +67,7 @@ LoginComponent.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    user: state.authentication.user
+    user: state.auth.user
 })
 
 const mapDispatchToProps = dispatch => ({
