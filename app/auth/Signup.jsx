@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {navigate} from 'routerDuck'
-import 'isomorphic-fetch'
 
 class Signup extends React.Component {
     onFormSubmit(event) {

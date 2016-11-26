@@ -1,3 +1,4 @@
+import 'isomorphic-fetch'
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'

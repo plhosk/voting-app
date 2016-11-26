@@ -41,15 +41,8 @@ NewPollForm.propTypes = {
   submitting: PropTypes.bool.isRequired
 }
 
-// const mapStateToProps = state => ({
-//   initialValues: {
-//     owner: state.auth.user.username
-//   }
-// })
-
 NewPollForm = reduxForm({
   form: 'newPoll'
 })(NewPollForm)
 
-// export default connect(mapStateToProps)(NewPollForm)
 export default NewPollForm

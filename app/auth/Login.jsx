@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {updateUserObject} from 'auth/authDuck'
 import {navigate} from 'routerDuck'
-import 'isomorphic-fetch'
 
 class LoginComponent extends React.Component {
     onLoginSubmit(event) {

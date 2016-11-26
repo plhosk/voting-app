@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
-import 'isomorphic-fetch'
 
 import { fetchPollList } from 'polls/pollListDuck'
 

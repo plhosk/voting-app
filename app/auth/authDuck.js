@@ -1,7 +1,6 @@
 const UPDATE_USER_OBJECT = 'voting-app/user/UPDATE_USER_OBJECT'
 const REMOVE_USER_OBJECT = 'voting-app/user/REMOVE_USER_OBJECT'
 
-
 export default function reducer(state = {}, action) {
   switch (action.type) {
     case UPDATE_USER_OBJECT:
@@ -16,7 +15,6 @@ export default function reducer(state = {}, action) {
       return state
   }
 }
-
 
 export function updateUserObject(userObject) {
   return { type: UPDATE_USER_OBJECT, userObject }

@@ -1,7 +1,22 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {makeGetVisiblePolls} from 'selectors'
 import {Link} from 'react-router'
+import { createSelector } from 'reselect'
+
+const getPollList = (state) => state.pollList
+const getOwnerFilter = (state, props) => props.ownerFilter
+
+const makeGetVisiblePolls = () => {
+  return createSelector(
+    [getPollList, getOwnerFilter],
+    (pollList, ownerFilter) => {
+      if (ownerFilter === '') {
+        return pollList
+      }
+      return pollList.filter(poll => poll.owner === ownerFilter ? true : false )
+    }
+  )
+}
 
 const PollList = ({ pollList }) => (
   <div className='container'>

@@ -1,5 +1,3 @@
-import 'isomorphic-fetch'
-
 const POPULATE_POLL_LIST = 'voting-app/pollList/POPULATE_POLL_LIST'
 
 export default function reducer(state = [], action) {
@@ -26,3 +24,6 @@ export function fetchPollList() {
     })
   }
 }
+
+
+

@@ -1,7 +1,7 @@
-import 'isomorphic-fetch'
 import { showErrorMessage } from 'errorMessageDuck'
 
 const UPDATE_ACTIVE_POLL = 'voting-app/activePoll/UPDATE_ACTIVE_POLL'
+const DELETE_POLL = 'voting-app/activePoll/DELETE_POLL'
 const HIDE_ACTIVE_POLL = 'voting-app/activePoll/HIDE_ACTIVE_POLL'
 const UNHIDE_ACTIVE_POLL = 'voting-app/activePoll/UNHIDE_ACTIVE_POLL'
 
@@ -12,6 +12,8 @@ export default function reducer(state = {}, action) {
         ...action.poll,
         hidePoll: false
       }
+    case DELETE_POLL:
+      return state
     case HIDE_ACTIVE_POLL:
       return {
         ...state,
@@ -47,6 +49,12 @@ export function fetchPoll(pollId) {
   }
 }
 
+export function deletePoll(pollId) {
+  return {
+    type: DELETE_POLL,
+    pollId
+  }
+}
 export function hideActivePoll() {
   return { type: HIDE_ACTIVE_POLL }
 }

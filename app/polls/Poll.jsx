@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import {
   fetchPoll,
+  deletePoll,
   hideActivePoll,
   unHideActivePoll
 } from 'polls/activePollDuck'
@@ -25,7 +26,8 @@ class Poll extends React.Component {
   }
 
   render() {
-    const { user, activePoll } = this.props
+    const { user, activePoll, dispatch } = this.props
+    const isOwner = user ? (user.username == activePoll.owner ? true : false) : false
     if (activePoll.hasOwnProperty('hidePoll') && activePoll.hidePoll) {
       return null
     }
@@ -41,8 +43,16 @@ class Poll extends React.Component {
         <p>Full poll data:</p>
         <code>{JSON.stringify(activePoll)}</code>
         <h2>
-          You are {user ? (user.username == activePoll.owner ? '' : 'NOT') : 'NOT'} the poll's owner.
+          You are {isOwner ? '' : 'NOT'} the poll's owner.
         </h2>
+        {isOwner &&
+          <button
+            className='btn btn-danger'
+            onClick={() => {dispatch(deletePoll(activePoll.pollId))}}
+          >
+            Delete this poll
+          </button>
+        }
       </div>
     )
   }
