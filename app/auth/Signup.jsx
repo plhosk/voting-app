@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {navigate} from 'routerDuck'
+import 'isomorphic-fetch'
 
 class Signup extends React.Component {
     onFormSubmit(event) {
@@ -11,7 +12,7 @@ class Signup extends React.Component {
             //show username error
         }
         else {
-            fetch('/auth/signup', {
+            fetch('/api/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -22,7 +23,7 @@ class Signup extends React.Component {
                 })
             }).then(function (response) {
                 if (response.status == 200) {
-                    this.props.navigate({ pathname: '/auth/login' }, 'PUSH')
+                    this.props.dispatch(navigate({ pathname: '/login' }, 'PUSH'))
                 }
                 else {
                     alert("Sign up failed! most likely user name is not available")
@@ -45,11 +46,8 @@ class Signup extends React.Component {
 }
 
 Signup.propTypes = {
-  navigate: PropTypes.func
+  navigate: PropTypes.func,
+  dispatch: PropTypes.func
 }
 
-const mapDispatchToProps = dispatch => ({
-    navigate: (location, action) => dispatch(navigate(location, action))
-})
-
-export default connect(null, mapDispatchToProps)(Signup)
+export default connect()(Signup)

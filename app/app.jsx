@@ -3,18 +3,13 @@ import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider, connect } from 'react-redux'
 import Router from 'react-router-addons-controlled/ControlledBrowserRouter'
-import { Match } from 'react-router'
-import freeze from 'redux-freeze' // remove in production version
+import thunk from 'redux-thunk'
+import freeze from 'redux-freeze'
 import createBrowserHistory from 'history/createBrowserHistory'
 const history = createBrowserHistory()
 
 import MainContainer from 'MainContainer'
-import Index from 'Index'
-import Login from 'auth/Login'
-import Signup from 'auth/Signup'
-
-import reducers from 'reducers'
-
+import rootReducer from 'rootReducer'
 import { navigate } from 'routerDuck'
 
 const initialState = {
@@ -22,34 +17,31 @@ const initialState = {
     location: history.location,
     action: history.action
   },
-  auth: {}
+  auth: {},
+  pollList: [],
+  activePoll: {}
+}
+
+let middleware = [thunk]
+if (process.env.NODE_ENV !== 'production') {
+  middleware = [...middleware, freeze]
 }
 
 const store = createStore(
-  reducers, initialState,
+  rootReducer, initialState,
   compose(
-    applyMiddleware(freeze),
+    applyMiddleware(...middleware),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 )
 
-const App = connect((state) => {
-  return {
-    location: state.router.location,
-    action: state.router.action
-  }
-},
-(dispatch) => {
-  return {
-    navigate: (location, action) => dispatch(navigate(location, action))
-  }
-}
-)(class App extends React.Component {
+class AppComponent extends React.Component {
 
   static propTypes = {
     location: PropTypes.object,
     action: PropTypes.string,
     navigate: PropTypes.func,
+    dispatch: PropTypes.func
   }
 
   render() {
@@ -63,26 +55,29 @@ const App = connect((state) => {
           // because, guess what? you can't actual control the browser history!
           // anyway, use your current action not "SYNC"
           if (action === 'SYNC') {
-            this.props.navigate(location, this.props.action)
+            this.props.dispatch(navigate(location, this.props.action))
           } else if (!window.block) {
             // if you want to block transitions go into the console and type in
             // `window.block = true` and transitions won't happen anymore
-            this.props.navigate(location, action)
+            this.props.dispatch(navigate(location, action))
           } else {
             console.log('blocked!') // eslint-disable-line
           }
         }}
       >
         
-        <MainContainer>
-          <Match pattern="/" exactly component={Index}/>
-          <Match pattern="/auth/login" exactly component={Login}/>
-          <Match pattern="/auth/signup" exactly component={Signup}/>
-        </MainContainer>
+        <MainContainer />
       </Router>
     )
   }
+}
+
+const mapStateToProps = state => ({
+  location: state.router.location,
+  action: state.router.action
 })
+
+const App = connect(mapStateToProps)(AppComponent)
 
 // <Router
 //   history={history}                  // the history object to listen to

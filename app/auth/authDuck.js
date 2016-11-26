@@ -1,5 +1,5 @@
-const UPDATE_USER_OBJECT = 'UPDATE_USER_OBJECT'
-const REMOVE_USER_OBJECT = 'REMOVE_USER_OBJECT'
+const UPDATE_USER_OBJECT = 'voting-app/user/UPDATE_USER_OBJECT'
+const REMOVE_USER_OBJECT = 'voting-app/user/REMOVE_USER_OBJECT'
 
 
 export default function reducer(state = {}, action) {

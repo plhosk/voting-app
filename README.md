@@ -10,7 +10,7 @@ Inspired by AviranAbady's [react-boilerplate](https://github.com/AviranAbady/rea
 
 ### Technologies
 - Server: Node/Express, MongoDB, Passport
-- Client: React, React-Router v4, Redux, redux-saga
+- Client: React, React-Router v4, Redux, redux-thunk, reselect
 
 ### User Stories
 - As an authenticated user, I can keep my polls and come back later to access them.

@@ -1,15 +1,15 @@
 import React, {PropTypes} from 'react'
-import UserIndexComponent from 'IndexUser'
-import GuestIndexComponent from 'IndexGuest'
+import IndexUser from 'IndexUser'
+import IndexGuest from 'IndexGuest'
 import {connect} from 'react-redux'
 
 class Index extends React.Component {
    render() {
        if(this.props.user) {
-           return <UserIndexComponent userName={this.props.user.username}/>
+           return <IndexUser userName={this.props.user.username}/>
        }
        else {
-           return <GuestIndexComponent/>
+           return <IndexGuest/>
        }
    }
 }

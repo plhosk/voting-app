@@ -1,18 +1,24 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
 import NavigationBar from 'NavigationBar'
+import { Match } from 'react-router'
 
-class MainContainer extends React.Component {
-    render() {
-        return(
-            <div>
-                <NavigationBar/>
-                {this.props.children}
-            </div>
-        )
-    }
-}
-MainContainer.propTypes = {
-  children: PropTypes.any
-}
+import Index from 'Index'
+import Login from 'auth/Login'
+import Signup from 'auth/Signup'
+import Polls from 'polls/Polls'
+import Poll from 'polls/Poll'
+/* import User from 'user/User' */
+
+const MainContainer = () => (
+  <div>
+    <NavigationBar />
+    <Match pattern="/" exactly component={Index}/>
+    <Match pattern="/login" exactly component={Login}/>
+    <Match pattern="/signup" exactly component={Signup}/>
+    <Match pattern='/polls' exactly component={Polls}/>
+    <Match pattern='/polls/:pollId' component={Poll}/>
+    { /* <Match pattern='/users/:userId' component={User}/> */ }
+  </div>
+)
 
 export default MainContainer

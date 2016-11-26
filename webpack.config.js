@@ -1,5 +1,8 @@
-module.exports = {
-  entry: ['whatwg-fetch', './app/App.jsx'],
+const webpack = require('webpack')
+const prod = process.argv.indexOf('-p') !== -1;
+
+const config = {
+  entry: ['babel-polyfill', './app/App.jsx'],
   output: {
     path: __dirname + '/public',
     filename: 'bundle.js'
@@ -24,3 +27,20 @@ module.exports = {
     ]
   }
 }
+
+config.plugins = config.plugins||[];
+if (prod) {
+  config.plugins.push(new webpack.DefinePlugin({
+      'process.env': {
+          'NODE_ENV': `"production"`
+      }
+  }))
+} else {
+  config.plugins.push(new webpack.DefinePlugin({
+      'process.env': {
+          'NODE_ENV': `""`
+      }
+  }))
+}
+
+module.exports = config

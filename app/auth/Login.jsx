@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {updateUserObject} from 'auth/authDuck'
 import {navigate} from 'routerDuck'
+import 'isomorphic-fetch'
 
 class LoginComponent extends React.Component {
     onLoginSubmit(event) {
@@ -14,7 +15,7 @@ class LoginComponent extends React.Component {
             //show input error
         }
         else {
-            fetch('/auth/login', {
+            fetch('/api/login', {
                 credentials: 'same-origin',
                 method: 'POST',
                 headers: {
@@ -28,10 +29,10 @@ class LoginComponent extends React.Component {
 
                 if(response.status == 200) {
                     response.json().then(function(user) {
-                        this.props.updateUser(user)
+                        this.props.dispatch(updateUserObject(user))
                         // hashHistory.push('/')
                         //location.href = '/'
-                        this.props.navigate({ pathname: '/' },'PUSH')
+                        this.props.dispatch(navigate({ pathname: '/' },'PUSH'))
                     }.bind(this))
                 }
                 else {
@@ -62,17 +63,13 @@ class LoginComponent extends React.Component {
 
 LoginComponent.propTypes = {
   user: PropTypes.object,
-  updateUser: PropTypes.func,
-  navigate: PropTypes.func
+  updateUserObject: PropTypes.func,
+  navigate: PropTypes.func,
+  dispatch: PropTypes.func
 }
 
 const mapStateToProps = state => ({
     user: state.auth.user
 })
 
-const mapDispatchToProps = dispatch => ({
-    updateUser: (user) => dispatch(updateUserObject(user)),
-    navigate: (location, action) => dispatch(navigate(location, action))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent)
+export default connect(mapStateToProps)(LoginComponent)

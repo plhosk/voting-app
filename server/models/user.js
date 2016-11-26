@@ -1,8 +1,5 @@
-/**
- * User model
- */
-
 var mongoose = require("mongoose")
+var AutoIncrement = require('mongoose-sequence')
 var bcrypt = require("bcrypt-nodejs")
 
 var userSchema = mongoose.Schema({
@@ -21,6 +18,8 @@ var userSchema = mongoose.Schema({
   },
   displayName: String
 })
+
+userSchema.plugin(AutoIncrement, { inc_field: 'userId' })
 
 var SALT_FACTOR = 10
 
@@ -58,4 +57,4 @@ userSchema.methods.getId = function () {
   return this._id
 }
 
-module.exports = mongoose.model("User", userSchema)
+module.exports = mongoose.model("Vote-User", userSchema)
