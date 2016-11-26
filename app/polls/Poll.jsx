@@ -1,22 +1,32 @@
-import React, {PropTypes} from 'react'
-import {connect} from 'react-redux'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 
-import {fetchPoll} from 'polls/activePollDuck'
+import {
+  fetchPoll,
+  hideActivePoll,
+  unHideActivePoll
+} from 'polls/activePollDuck'
 
 class Poll extends React.Component {
   componentDidMount() {
-    this.props.dispatch(fetchPoll(this.props.params.pollId))
+    if (this.props.params.pollId != this.props.activePoll.pollId) {
+      this.props.dispatch(hideActivePoll())
+      this.props.dispatch(fetchPoll(this.props.params.pollId))
+    } else {
+      this.props.dispatch(unHideActivePoll())
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.pollId !== this.props.params.pollId) {
+      this.props.dispatch(hideActivePoll())
       this.props.dispatch(fetchPoll(nextProps.params.pollId))
     }
   }
 
   render() {
     const { user, activePoll } = this.props
-    if (activePoll === {}) {
+    if (activePoll.hasOwnProperty('hidePoll') && activePoll.hidePoll) {
       return null
     }
     return (

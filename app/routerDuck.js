@@ -1,4 +1,4 @@
-const NAVIGATE = 'NAVIGATE'
+export const NAVIGATE = 'NAVIGATE'
 
 export default function routerReducer(state = {}, action) {
   if (action.type === NAVIGATE) {

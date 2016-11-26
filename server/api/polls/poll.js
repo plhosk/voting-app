@@ -5,10 +5,13 @@ const Poll = require('../../models/poll')
 router.get('/', (req, res) => {
     Poll.findOne({ 'pollId': req.params.pollId })
       .then(poll => {
+        if (!poll) {
+          return res.sendStatus(400)
+        }
         res.status(200).json(poll)
       })
       .catch(err => {
-        res.status(400).send(err)
+        res.status(500).send(err)
       })
 })
 

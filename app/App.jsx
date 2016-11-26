@@ -19,7 +19,8 @@ const initialState = {
   },
   auth: {},
   pollList: [],
-  activePoll: {}
+  activePoll: {},
+  errorMessage: ''
 }
 
 let middleware = [thunk]
