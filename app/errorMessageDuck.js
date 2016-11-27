@@ -1,4 +1,4 @@
-import { NAVIGATE } from 'routerDuck'
+import { NAVIGATE } from './routerDuck'
 
 const SHOW_ERROR_MESSAGE = 'voting-app/errorMessage/SHOW_ERROR_MESSAGE'
 const HIDE_ERROR_MESSAGE = 'voting-app/errorMessage/HIDE_ERROR_MESSAGE'

@@ -1,10 +1,12 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
+import {reset} from 'redux-form'
 
-import { fetchPollList } from 'polls/pollListDuck'
+import { showErrorMessage } from '../errorMessageDuck'
+import { fetchPollList } from './pollListDuck'
 
-import NewPollForm from 'polls/NewPollForm'
-import PollList from 'polls/PollList'
+import NewPollForm from './NewPollForm'
+import PollList from './PollList'
 
 class Polls extends React.Component {
 
@@ -21,17 +23,18 @@ class Polls extends React.Component {
       body: JSON.stringify(values)
     }).then(function (response) {
       if (response.status == 200) {
+          this.props.dispatch(reset('newPoll'))
           this.props.dispatch(fetchPollList())
       }
       else {
-          alert("Poll submission failed!")
+        this.props.dispatch(showErrorMessage("Poll submission failed!"))
       }
     }.bind(this))
   }
   render() {
     const { user } = this.props
     return (
-      <div className='container'>
+      <div>
         {user && <NewPollForm
           onSubmit={this.handleSubmit}
           initialValues={{owner: user.username}}

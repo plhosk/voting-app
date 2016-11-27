@@ -1,63 +1,98 @@
-import React, {PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {updateUserObject} from 'auth/authDuck'
-import {navigate} from 'routerDuck'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+
+import { showErrorMessage } from '../errorMessageDuck'
+import { updateUserObject} from './authDuck'
+import { navigate } from '../routerDuck'
 
 class LoginComponent extends React.Component {
-    onLoginSubmit(event) {
-        event.preventDefault()
 
-        var username = this.refs.username.value
-        var password = this.refs.password.value
+  onLoginSubmit(event) {
+    event.preventDefault()
+    var username = this.userInput.input.value
+    var password = this.passInput.input.value
+    if (username.length == 0 || password.length == 0) {
+      //show input error
+    }
+    else {
+      fetch('/api/login', {
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        })
+      }).then(function (response) {
 
-        if (username.length == 0 || password.length == 0) {
-            //show input error
+        if(response.status == 200) {
+          response.json().then(function(user) {
+            this.props.dispatch(updateUserObject(user))
+            this.props.dispatch(navigate({ pathname: '/' },'PUSH'))
+          }.bind(this))
         }
         else {
-            fetch('/api/login', {
-                credentials: 'same-origin',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                })
-            }).then(function (response) {
-
-                if(response.status == 200) {
-                    response.json().then(function(user) {
-                        this.props.dispatch(updateUserObject(user))
-                        // hashHistory.push('/')
-                        //location.href = '/'
-                        this.props.dispatch(navigate({ pathname: '/' },'PUSH'))
-                    }.bind(this))
-                }
-                else {
-                    alert("Login failed")
-                }
-            }.bind(this))
+          this.props.dispatch(showErrorMessage('Login failed. User name or password may be incorrect'))
         }
+      }.bind(this))
+    }
+  }
+
+  render() {
+
+    const style = {
+      textField: {
+        width: 200,
+        fontSize: '1.2em'
+      },
+      button: {
+        width: 200,
+        marginTop: 10,
+      }
     }
 
-    render() {
-        if(this.props.user) {
-            return <div className="container"><h1>You are logged already in!</h1></div>
-        }
-
-        return (
-            <div className="container">
-                <h1>Log in</h1>
-                <form onSubmit={this.onLoginSubmit.bind(this)}>
-                    <input ref="username" type="text" className="form-control" placeholder="Username" required
-                           autoFocus/>
-                    <input ref="password" type="password" className="form-control" placeholder="Password" required/>
-                    <input type="submit" value="Log in" className="btn btn-primary btn-block"/>
-                </form>
-            </div>
-        )
+    if(this.props.user) {
+      return (
+        <div>
+          <h1>You are already logged in!</h1>
+        </div>
+      )
     }
+
+    return (
+      <div>
+        <h1>Log in</h1>
+        <form onSubmit={this.onLoginSubmit.bind(this)}>
+          <TextField
+            style={style.textField}
+            ref={username => {this.userInput = username}}
+            id='username'
+            type="text"
+            placeholder="Username"
+            required
+            autoFocus
+          /><br />
+          <TextField
+            style={style.textField}
+            ref={password => {this.passInput = password}}
+            id='password'
+            type="password"
+            placeholder="Password"
+            required
+          /><br />
+          <RaisedButton
+            style={style.button}
+            type='submit'
+            label='Log in'
+          />
+        </form>
+      </div>
+    )
+  }
 }
 
 LoginComponent.propTypes = {
@@ -68,7 +103,7 @@ LoginComponent.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    user: state.auth.user
+  user: state.auth.user
 })
 
 export default connect(mapStateToProps)(LoginComponent)

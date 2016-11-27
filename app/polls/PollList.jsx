@@ -2,6 +2,12 @@ import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import { createSelector } from 'reselect'
+import Paper from 'material-ui/Paper'
+import { List, ListItem }  from 'material-ui/List'
+import Divider from 'material-ui/Divider'
+import ActionCheckCircle from 'material-ui/svg-icons/action/check-circle'
+
+import {navigate} from '../routerDuck'
 
 const getPollList = (state) => state.pollList
 const getOwnerFilter = (state, props) => props.ownerFilter
@@ -18,22 +24,41 @@ const makeGetVisiblePolls = () => {
   )
 }
 
-const PollList = ({ pollList }) => (
-  <div className='container'>
-    <ul className='list-group'>
-    {pollList ? pollList.map(poll => (
-      <Link className='list-group-item' to={'/polls/' + poll.pollId + ''}  key={poll.pollId}>
-        <li className='list-group-item'>
-          {poll.title}
-        </li>
-      </Link>
-    )) : <li className='list-group-item'>No polls found in database</li>}
-    </ul>
-  </div>
+const style = {
+  list: {
+    width: 500,
+    margin: '20px auto',
+  },
+  listItem: {
+
+  },
+}
+
+const PollList = ({ pollList, dispatch }) => (
+
+  <List
+    style={style.list}
+  >
+    {(!pollList || pollList.length === 0) && (
+      <h2>No polls found.</h2>)}
+    {pollList && <Paper style={style.paper} zDepth={4} >
+      {pollList.map(poll => (
+      <div key={poll.pollId}>
+        <ListItem
+          primaryText={poll.title}
+          rightIcon={<ActionCheckCircle />}
+          onClick={() => { dispatch(navigate({ pathname: '/polls/' + poll.pollId }, 'PUSH'))}}
+        />
+        <Divider />
+      </div>
+    ))}
+    </Paper>}
+  </List>
 )
 
 PollList.propTypes = {
-  pollList: PropTypes.array
+  pollList: PropTypes.array,
+  dispatch: PropTypes.func
 }
 
 const makeMapStateToProps = () => {

@@ -6,7 +6,7 @@ import {
   deletePoll,
   hideActivePoll,
   unHideActivePoll
-} from 'polls/activePollDuck'
+} from './activePollDuck'
 
 class Poll extends React.Component {
   componentDidMount() {
@@ -26,13 +26,23 @@ class Poll extends React.Component {
   }
 
   render() {
+
+    const style = {
+      code: {
+        whiteSpace: 'pre'
+      }
+    }
+
     const { user, activePoll, dispatch } = this.props
     const isOwner = user ? (user.username == activePoll.owner ? true : false) : false
+    if (activePoll == {}) {
+      return null
+    }
     if (activePoll.hasOwnProperty('hidePoll') && activePoll.hidePoll) {
       return null
     }
     return (
-      <div className='container'>
+      <div>
         <h1>{activePoll.title}</h1>
         <h3>
           Created by: {activePoll.owner}
@@ -41,7 +51,7 @@ class Poll extends React.Component {
           at {activePoll.creationDate}
         </h4>
         <p>Full poll data:</p>
-        <code>{JSON.stringify(activePoll)}</code>
+        <code style={style.code}>{JSON.stringify(activePoll, null, 2)}</code>
         <h2>
           You are {isOwner ? '' : 'NOT'} the poll's owner.
         </h2>

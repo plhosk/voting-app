@@ -1,4 +1,11 @@
+// special imports that affect the entire app
 import 'isomorphic-fetch'
+import { polyfill } from 'es6-promise'
+polyfill()
+import injectTapEventPlugin from 'react-tap-event-plugin'
+injectTapEventPlugin()
+
+// other imports
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
@@ -7,11 +14,13 @@ import Router from 'react-router-addons-controlled/ControlledBrowserRouter'
 import thunk from 'redux-thunk'
 import freeze from 'redux-freeze'
 import createBrowserHistory from 'history/createBrowserHistory'
-const history = createBrowserHistory()
+export const history = createBrowserHistory()
 
-import MainContainer from 'MainContainer'
-import rootReducer from 'rootReducer'
-import { navigate } from 'routerDuck'
+import { navigate } from './routerDuck'
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import MainContainer from './MainContainer'
+import rootReducer from './rootReducer'
 
 const initialState = {
   router: {
@@ -24,18 +33,19 @@ const initialState = {
   errorMessage: ''
 }
 
-let middleware = [thunk]
+let middlewares = [thunk]
 if (process.env.NODE_ENV !== 'production') {
-  middleware = [...middleware, freeze]
+  middlewares = [...middlewares, freeze]
 }
 
-const store = createStore(
-  rootReducer, initialState,
-  compose(
-    applyMiddleware(...middleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-)
+let middleware = applyMiddleware(...middlewares)
+
+// add the redux dev tools
+if (process.env.NODE_ENV !== 'production' && window.devToolsExtension) {
+  middleware = compose(middleware, window.devToolsExtension());
+}
+
+const store = createStore(rootReducer, initialState, middleware)
 
 class AppComponent extends React.Component {
 
@@ -67,8 +77,9 @@ class AppComponent extends React.Component {
           }
         }}
       >
-        
-        <MainContainer />
+        <MuiThemeProvider>
+          <MainContainer />
+        </MuiThemeProvider>
       </Router>
     )
   }
@@ -80,24 +91,6 @@ const mapStateToProps = state => ({
 })
 
 const App = connect(mapStateToProps)(AppComponent)
-
-// <Router
-//   history={history}                  // the history object to listen to
-
-//   location={location}                // the location to navigate to
-
-//   action={action}                    // the action to use: "PUSH" || "REPLACE", 
-
-//   onChange={(location, action) => {  // called when the user clicks
-//                                      // back/forward buttons
-//                                      // if you get a "SYNC" action
-//                                      // YOU MUST ACCEPT IT INTO YOUR STATE
-//                                      // otherwise it's all busted
-//   }}
-
-//   {...additionalRouterProps}         // all other props supported by the
-//                                      // uncontrolled "sister" router
-// />
 
 ReactDOM.render(
   <Provider store={store}><App /></Provider>,
