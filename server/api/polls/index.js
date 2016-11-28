@@ -19,6 +19,9 @@ router.post('/', (req, res) => {
   let poll = new Poll()
   poll.title = req.body.title
   poll.owner = req.body.owner
+  req.body.optionsCommaSep.split(',').map((option) => {
+    poll.options.push({ text: option.trim() })
+  })
   poll.save((err) => {
     if (err) {
       res.status(500).send(err)

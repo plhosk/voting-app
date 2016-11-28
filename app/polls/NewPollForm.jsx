@@ -6,44 +6,75 @@ import { TextField } from 'redux-form-material-ui'
 
 let NewPollForm = props => {
 
-  const style = {
+  const styles = {
     card: {
-      width: 500,
-      margin: 'auto'
-
+      maxWidth: 500,
+      margin: 'auto',
+      marginBottom: 20,
     },
     textField: {
-      width: 400,
-      fontSize: '1.2em'
+      // maxWidth: 400,
+      display: 'inline-block',
+      fontSize: '1.2em',
+      width: '75%',
+      minWidth: 200
+    },
+    fieldLabel: {
+      display: 'inline-block',
+      width: '25%',
+      fontWeight: 'bold',
+      minWidth: 100,
+      marginTop: 30
+    },
+    note: {
+
     },
     button: {
-      width: 400,
-      marginTop: 10,
+      // width: 400,
+      // maxWidth: 400,
+      marginTop: 30,
     }
   }
 
   const { handleSubmit, pristine, submitting } = props
   return (
-    <Card style={style.card}>
+    <Card style={styles.card}>
       <CardHeader
-        title='Create New Poll'
+        title='Click to create a new poll'
         actAsExpander={true}
         showExpandableButton={true}
       />
       <CardText expandable={true}>
         <form onSubmit={handleSubmit}>
+          <span style={styles.fieldLabel}>Poll Question</span>
           <Field
-            style={style.textField}
-            id='inputDefault'
+            style={styles.textField}
+            // id='inputDefault'
             name='title'
             component={TextField}
             type='text'
-            placeholder='Enter poll question'
-          /><br />
+            placeholder='Enter a question'
+          />
+          <br />
+          <span style={styles.fieldLabel}>Choices</span>
+          <Field
+            style={styles.textField}
+            // id='option1'
+            name={'optionsCommaSep'}
+            component={TextField}
+            type='text'
+            placeholder='Enter at least two choices'
+          />
+          <br />
+          <span style={styles.note}>
+            Separate choices with a comma
+          </span>
+          <br />
           <RaisedButton
-            style={style.button}
+            style={styles.button}
             type='submit'
             label='Create Poll'
+            primary={true}
             disabled={pristine || submitting}
           />
         </form>

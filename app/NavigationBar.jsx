@@ -8,6 +8,7 @@ import ActionHome from 'material-ui/svg-icons/action/home'
 import ActionCheckCircle from 'material-ui/svg-icons/action/check-circle'
 import ActionAccountBox from 'material-ui/svg-icons/action/account-box'
 import ActionPermIdentity from 'material-ui/svg-icons/action/perm-identity'
+import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
 
 import {removeUserObject} from './auth/authDuck'
 import { navigate } from './routerDuck'
@@ -23,61 +24,86 @@ class NavigationBar extends React.Component {
   render() {
     const { user, dispatch } = this.props
 
-    const style = {
+    const styles = {
+      appBar: {
+      },
+      home: {
+        backgroundColor: 'transparent',
+        color: 'white',
+      },
       title: {
         cursor: 'pointer',
+      },
+      rightSpan: {
+        display: 'flex',
+        flexFlow: 'row wrap',
+
       },
       button: {
         backgroundColor: 'transparent',
         color: 'white',
         paddingTop: 6,
-        paddingLeft: 30
+        marginBottom: 8,
+        paddingLeft: 8,
+        paddingRight: 8,
+        textAlign: 'right',
+        flexBasis: 300
       },
       buttonText: {
-        fontSize: '1.3em'
+        fontSize: '1.1em'
       }
     }
 
     return(
       <AppBar
-        title={<span style={style.title}>Voting App</span>}
+        style={styles.appBar}
+        title={<span style={styles.title}>Voting App</span>}
         onTitleTouchTap={() => dispatch(navigate({ pathname: '/' }, 'PUSH'))}
-        iconElementLeft={<IconButton><ActionHome /></IconButton>}
+        iconElementLeft={
+            <IconButton onClick={() => dispatch(navigate({ pathname: '/' }, 'PUSH'))}>
+              <ActionHome />
+            </IconButton>
+        }
         iconElementRight={
-          <span>
-            <Link to='/polls'>
+          <span style={styles.rightSpan}>
+            { /* <Link to='/polls'>
               <FlatButton
-                style={style.button}
+                style={styles.button}
                 labelPosition='after'
                 icon={<ActionCheckCircle />}
-                label={<span style={style.buttonText}>
+                label={<span style={styles.buttonText}>
                 Browse Polls
               </span>} />
-            </Link>
-            {user && <FlatButton
-              style={style.button}
-              label={<span style={style.buttonText}>
-                Log Out
-              </span>}
-              onClick={() => this.logoutUser()} />}
+            </Link> */ }
+            {user &&
+              <Link to='#'>
+              <FlatButton
+                style={styles.button}
+                labelPosition='after'
+                icon={<PowerSettingsNew />}
+                label={<span style={styles.buttonText}>
+                  Log Out
+                </span>}
+                onClick={() => this.logoutUser()}
+              /></Link>}
             {!user && <Link to="/login">
               <FlatButton
-                style={style.button}
+                style={styles.button}
                 labelPosition='after'
                 icon={<ActionAccountBox />}
-                label={<span style={style.buttonText}>
-                Log In
-              </span>} /> 
-            </Link>}
+                label={<span style={styles.buttonText}>
+                  Log In
+                </span>} />
+              </Link>}
             {!user && <Link to="/signup">
               <FlatButton
-                style={style.button}
+                style={styles.button}
                 labelPosition='after'
                 icon={<ActionPermIdentity />}
-                label={<span style={style.buttonText}>
-                Sign Up
-              </span>} />
-            </Link>}
+                label={<span style={styles.buttonText}>
+                  Sign Up
+                </span>} />
+              </Link>}
           </span>
         }
       />

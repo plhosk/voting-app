@@ -44,13 +44,13 @@ class LoginComponent extends React.Component {
 
   render() {
 
-    const style = {
+    const styles = {
       textField: {
-        width: 200,
+        maxWidth: 200,
         fontSize: '1.2em'
       },
       button: {
-        width: 200,
+        maxWidth: 200,
         marginTop: 10,
       }
     }
@@ -68,7 +68,7 @@ class LoginComponent extends React.Component {
         <h1>Log in</h1>
         <form onSubmit={this.onLoginSubmit.bind(this)}>
           <TextField
-            style={style.textField}
+            style={styles.textField}
             ref={username => {this.userInput = username}}
             id='username'
             type="text"
@@ -77,7 +77,7 @@ class LoginComponent extends React.Component {
             autoFocus
           /><br />
           <TextField
-            style={style.textField}
+            style={styles.textField}
             ref={password => {this.passInput = password}}
             id='password'
             type="password"
@@ -85,7 +85,7 @@ class LoginComponent extends React.Component {
             required
           /><br />
           <RaisedButton
-            style={style.button}
+            style={styles.button}
             type='submit'
             label='Log in'
           />

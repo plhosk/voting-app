@@ -32,14 +32,25 @@ class Polls extends React.Component {
     }.bind(this))
   }
   render() {
-    const { user } = this.props
+    const { user, pathname } = this.props
+    let ownerFilter = ''
+    if (pathname === '/mypolls') {
+      if (user) {
+        ownerFilter = user.username
+      } else {
+        return (<h3>Log in to see your polls!</h3>)
+      }
+    }
+
     return (
       <div>
-        {user && <NewPollForm
-          onSubmit={this.handleSubmit}
-          initialValues={{owner: user.username}}
-        />}
-        <PollList ownerFilter='' />
+        {/* user && TODO CHANGE BACK */ 
+          <NewPollForm
+            onSubmit={this.handleSubmit}
+            initialValues={{owner: 'temporary'}} /* {{owner: user.username}} */
+          />
+        }
+        <PollList ownerFilter={ownerFilter} />
       </div>
     )
   }
@@ -47,11 +58,13 @@ class Polls extends React.Component {
 
 Polls.propTypes = {
   user: PropTypes.object,
-  dispatch: PropTypes.func
+  pathname: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-    user: state.auth.user
+    user: state.auth.user,
+    pathname: state.router.location.pathname
 })
 
 export default connect(mapStateToProps)(Polls)

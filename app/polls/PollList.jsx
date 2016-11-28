@@ -5,7 +5,9 @@ import { createSelector } from 'reselect'
 import Paper from 'material-ui/Paper'
 import { List, ListItem }  from 'material-ui/List'
 import Divider from 'material-ui/Divider'
-import ActionCheckCircle from 'material-ui/svg-icons/action/check-circle'
+import CircularProgress from 'material-ui/CircularProgress'
+// import ActionCheckCircle from 'material-ui/svg-icons/action/check-circle'
+import SocialPoll from 'material-ui/svg-icons/social/poll'
 
 import {navigate} from '../routerDuck'
 
@@ -24,29 +26,65 @@ const makeGetVisiblePolls = () => {
   )
 }
 
-const style = {
+const timeSince = (date) => {
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) {
+        return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return interval + " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return interval + " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+}
+
+const styles = {
   list: {
-    width: 500,
-    margin: '20px auto',
+    maxWidth: 500,
+    margin: '0 auto',
   },
   listItem: {
-
+    textAlign: 'left',
+    fontSize: '1em',
+    lineHeight: '1.2em'
   },
 }
 
 const PollList = ({ pollList, dispatch }) => (
 
   <List
-    style={style.list}
+    style={styles.list}
   >
     {(!pollList || pollList.length === 0) && (
-      <h2>No polls found.</h2>)}
-    {pollList && <Paper style={style.paper} zDepth={4} >
+      <div>
+        {/* <CircularProgress size={80} thickness={5} /><br /> */}
+        Poll list is empty
+      </div>)}
+    {pollList && <Paper style={styles.paper} zDepth={4} >
       {pollList.map(poll => (
       <div key={poll.pollId}>
         <ListItem
+          style={styles.listItem}
           primaryText={poll.title}
-          rightIcon={<ActionCheckCircle />}
+          secondaryText={`Created ${
+            timeSince(Date.parse(poll.creationDate))} ago by ${poll.owner}`}
+          leftIcon={<SocialPoll />}
           onClick={() => { dispatch(navigate({ pathname: '/polls/' + poll.pollId }, 'PUSH'))}}
         />
         <Divider />

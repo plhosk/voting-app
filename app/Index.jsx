@@ -5,7 +5,7 @@ import ActionCheckCircle from 'material-ui/svg-icons/action/check-circle'
 import IndexUser from './IndexUser'
 import IndexGuest from './IndexGuest'
 
-const style = {
+const styles = {
   logo: {
     width: 120,
     height: 120,
@@ -18,8 +18,8 @@ class Index extends React.Component {
     const {user} = this.props
 
     return (
-      <div style={style}>
-        <ActionCheckCircle style={style.logo} />
+      <div>
+        <ActionCheckCircle style={styles.logo} />
         {user && <IndexUser userName={this.props.user.username}/>}
         {!user && <IndexGuest/>}
       </div>

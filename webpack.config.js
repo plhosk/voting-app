@@ -28,6 +28,12 @@ const config = {
             presets: [['es2015', { 'modules': false }], 'react', 'stage-2', ]
           }
         }]
+      },
+      {
+        test: /\.json$/,
+        use: [{
+          loader: "json-loader"
+        }]
       }
     ]
   },

@@ -4,6 +4,7 @@ import { Match } from 'react-router'
 import Paper from 'material-ui/Paper'
 
 import NavigationBar from './NavigationBar'
+import NavigationTabs from './NavigationTabs'
 import ErrorMessage from './ErrorMessage'
 import Index from './Index'
 import Login from './auth/Login'
@@ -12,28 +13,36 @@ import Polls from './polls/Polls'
 import Poll from './polls/Poll'
 /* import User from 'user/User' */
 
-const style = {
+const styles = {
   paper: {
     margin: '30px auto',
-    padding: 30,
+    padding: 0,
     maxWidth: 900,
     backgroundColor: 'white',
     color: 'black',
     textAlign: 'center'
+  },
+  contentDiv: {
+    margin: 0,
+    padding: 30,
   }
 }
 
 const MainContainer = () => (
   <div>
     <NavigationBar />
-    <Paper style={style.paper} zDepth={2}>
-      <ErrorMessage />
-      <Match pattern="/" exactly component={Index}/>
-      <Match pattern="/login" exactly component={Login}/>
-      <Match pattern="/signup" exactly component={Signup}/>
-      <Match pattern='/polls' exactly component={Polls}/>
-      <Match pattern='/polls/:pollId' component={Poll}/>
-      { /* <Match pattern='/users/:userId' component={User}/> */ }
+    <Paper style={styles.paper} zDepth={2}>
+      <NavigationTabs />
+      <div style={styles.contentDiv}>
+        <ErrorMessage />
+        <Match pattern="/" exactly component={Index}/>
+        <Match pattern="/login" exactly component={Login}/>
+        <Match pattern="/signup" exactly component={Signup}/>
+        <Match pattern='/polls' exactly component={Polls}/>
+        <Match pattern='/mypolls' exactly component={Polls}/>
+        <Match pattern='/polls/:pollId' component={Poll}/>
+        { /* <Match pattern='/users/:userId' component={User}/> */ }
+      </div>
     </Paper>
   </div>
 )
