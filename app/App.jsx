@@ -9,6 +9,7 @@ injectTapEventPlugin()
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
+import persistState from 'redux-localstorage'
 import { Provider, connect } from 'react-redux'
 import Router from 'react-router-addons-controlled/ControlledBrowserRouter'
 import thunk from 'redux-thunk'
@@ -28,6 +29,7 @@ const initialState = {
     action: history.action
   },
   auth: {},
+  voted: [],
   pollList: [],
   activePoll: {},
   errorMessage: ''
@@ -39,6 +41,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 let middleware = applyMiddleware(...middlewares)
+
+middleware = compose(middleware, persistState(
+  ['auth', 'voted'],
+  { key: 'voting-app-redux'}
+))
 
 // add the redux dev tools
 if (process.env.NODE_ENV !== 'production' && window.devToolsExtension) {

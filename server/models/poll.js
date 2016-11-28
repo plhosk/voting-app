@@ -10,7 +10,8 @@ var pollSchema = mongoose.Schema({
     text: String,
     votes: { type: Number, default: 0 },
     optionDate: { type: Date, default: Date.now }
-  }]
+  }],
+  // voterList: [String]
 })
 
 pollSchema.plugin(AutoIncrement, {inc_field: 'pollId'})

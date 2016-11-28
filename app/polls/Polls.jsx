@@ -31,6 +31,7 @@ class Polls extends React.Component {
       }
     }.bind(this))
   }
+  
   render() {
     const { user, pathname } = this.props
     let ownerFilter = ''
@@ -44,10 +45,10 @@ class Polls extends React.Component {
 
     return (
       <div>
-        {/* user && TODO CHANGE BACK */ 
+        { user &&
           <NewPollForm
             onSubmit={this.handleSubmit}
-            initialValues={{owner: 'temporary'}} /* {{owner: user.username}} */
+            initialValues={{owner: user.username}}
           />
         }
         <PollList ownerFilter={ownerFilter} />

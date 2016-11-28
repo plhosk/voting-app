@@ -1,9 +1,17 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import {reset} from 'redux-form'
+import { showErrorMessage } from '../errorMessageDuck'
+import { recordVote } from '../votedDuck'
+
+import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 import SocialShare from 'material-ui/svg-icons/social/share'
 import ActionDelete from 'material-ui/svg-icons/action/delete'
+import ActionDone from 'material-ui/svg-icons/action/done'
+import {green500} from 'material-ui/styles/colors'
 
+import VoteForm from './VoteForm'
 import PollChart from './PollChart'
 
 import {
@@ -38,6 +46,20 @@ const timeSince = (date) => {
     return Math.floor(seconds) + " seconds"
 }
 
+const twitterShare = (title, id) => {
+  const url = 'https://twitter.com/intent/tweet?text='
+  let appUrl = '' + window.location.protocol + '//'
+  appUrl += window.location.hostname
+  let tweet = 'Vote on my poll: ' + title + ' ' + appUrl + '/polls/' + id
+  window.open(url + encodeURIComponent(tweet))
+}
+
+const didVote = (voted, pollId) => {
+  if (voted.find(e => e == pollId) !== undefined) {
+    return true
+  }
+  return false
+}
 
 class Poll extends React.Component {
   componentDidMount() {
@@ -56,14 +78,23 @@ class Poll extends React.Component {
     }
   }
 
-  twitterShare() {
-    const url = 'https://twitter.com/intent/tweet?text='
-    const title = this.props.activePoll.title
-    let appUrl = '' + window.location.protocol + '//'
-    appUrl += window.location.hostname
-    const id = this.props.activePoll.pollId
-    let tweet = 'Vote on my poll: ' + title + ' ' + appUrl + '/polls/' + id
-    window.open(url + encodeURIComponent(tweet))
+  handleSubmit = (values) => {
+    fetch('/api/polls/' + this.props.activePoll.pollId, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    }).then(function (response) {
+      if (response.status == 200) {
+          this.props.dispatch(recordVote(this.props.activePoll.pollId))
+          this.props.dispatch(reset('voteSelector'))
+          this.props.dispatch(fetchPoll(this.props.activePoll.pollId))
+      }
+      else {
+        this.props.dispatch(showErrorMessage("Vote submission failed!"))
+      }      
+    }.bind(this))
   }
 
   render() {
@@ -73,11 +104,13 @@ class Poll extends React.Component {
         color: 'inherit', /* blue colors for links too */
         textDecoration: 'inherit' /* no underline */
       },
-      button: {
-      },
+      chartHolder: {
+        margin: 30,
+      }
     }
 
-    const { user, activePoll, dispatch } = this.props
+    const { user, activePoll, voted, dispatch } = this.props
+
     const isOwner = user ? (user.username == activePoll.owner ? true : false) : false
     if (!activePoll.hasOwnProperty('title')) {
       return null
@@ -85,10 +118,11 @@ class Poll extends React.Component {
     if (activePoll.hasOwnProperty('hidePoll') && activePoll.hidePoll) {
       return null
     }
+
     const chartData = []
     activePoll.options.map((option) => {
       chartData.push({
-        key: option.votes + ' votes - ' + option.text,
+        key: option.votes + ' - ' + option.text,
         value: option.votes })
     })
 
@@ -96,23 +130,36 @@ class Poll extends React.Component {
       <div>
 
         <h1>{activePoll.title}</h1>
-        <h5>
+        <p>
           Created {timeSince(Date.parse(activePoll.creationDate))} ago by {activePoll.owner}
-        </h5>
+        </p>
+        <Divider />
+        {didVote(voted, activePoll.pollId) ? (
+          <p>Vote received <ActionDone color={green500} /></p>
+        ) : (
+          <VoteForm
+            options={activePoll.options}
+            onSubmit={this.handleSubmit}
+            initialValues={{pollId: activePoll.pollId}}
+          />
+        )}
 
-        <PollChart data={chartData} />
-
-        { /* <p>Full poll data:</p>
-        <code>{ JSON.stringify(activePoll) }</code> */ }
+        <div style={styles.chartHolder}>
+          {chartData.reduce((a, b) => a + b.value, 0) > 0 ? (
+            <PollChart data={chartData} />
+          ) : (
+            <h4>No votes yet!</h4>
+          )}
+        </div>
         
-        { /* isOwner && */ // TODO CHANGE BACK
+        { isOwner && 
           <div>
             <RaisedButton
               label='Share on Twitter'
               style={styles.button}
-              onClick={this.twitterShare.bind(this)}
+              onClick={() => twitterShare(activePoll.title, activePoll.pollId)}
               icon={<SocialShare />}
-            />
+            /><br /><br />
             <RaisedButton
               label='Delete this poll'
               secondary={true}
@@ -122,6 +169,8 @@ class Poll extends React.Component {
             />
           </div>
         }
+        { /* <div><p>Full poll data:</p>
+        <code>{ JSON.stringify(activePoll) }</code></div> */}
       </div>
     )
   }
@@ -130,13 +179,15 @@ class Poll extends React.Component {
 Poll.propTypes = {
   user: PropTypes.object,
   activePoll: PropTypes.object,
+  voted: PropTypes.array,
   params: PropTypes.object.isRequired,
   dispatch: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
     user: state.auth.user,
-    activePoll: state.activePoll
+    activePoll: state.activePoll,
+    voted: state.voted
 })
 
 export default connect(mapStateToProps)(Poll)

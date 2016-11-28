@@ -5,7 +5,7 @@ const Poll = require('../../models/poll')
 
 router.get('/', (req, res) => {
     Poll.find()
-      .select('title pollId owner creationDate deleted')
+      .select('title pollId owner creationDate deleted') // voterList
       .sort('-creationDate')
       .then(pollList => {
         res.status(200).json(pollList)

@@ -5,10 +5,10 @@ import AppBar from 'material-ui/AppBar'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
 import ActionHome from 'material-ui/svg-icons/action/home'
-import ActionCheckCircle from 'material-ui/svg-icons/action/check-circle'
 import ActionAccountBox from 'material-ui/svg-icons/action/account-box'
 import ActionPermIdentity from 'material-ui/svg-icons/action/perm-identity'
 import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
+import SocialPerson from 'material-ui/svg-icons/social/person'
 
 import {removeUserObject} from './auth/authDuck'
 import { navigate } from './routerDuck'
@@ -76,16 +76,28 @@ class NavigationBar extends React.Component {
               </span>} />
             </Link> */ }
             {user &&
-              <Link to='#'>
-              <FlatButton
-                style={styles.button}
-                labelPosition='after'
-                icon={<PowerSettingsNew />}
-                label={<span style={styles.buttonText}>
-                  Log Out
-                </span>}
-                onClick={() => this.logoutUser()}
-              /></Link>}
+              <div>
+                <Link to='/mypolls'>
+                <FlatButton
+                  style={styles.button}
+                  labelPosition='after'
+                  icon={<SocialPerson />}
+                  label={<span style={styles.buttonText}>
+                   {user.username}
+                  </span>}
+                /></Link>
+                <Link to='#'>
+                <FlatButton
+                  style={styles.button}
+                  labelPosition='after'
+                  icon={<PowerSettingsNew />}
+                  label={<span style={styles.buttonText}>
+                    Log Out
+                  </span>}
+                  onClick={() => this.logoutUser()}
+                /></Link>
+              </div>
+            }
             {!user && <Link to="/login">
               <FlatButton
                 style={styles.button}
