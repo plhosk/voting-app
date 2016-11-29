@@ -7,8 +7,12 @@ var cookieParser = require("cookie-parser")
 var session = require("express-session")
 var passport = require("passport")
 var path = require('path')
+var favicon = require('serve-favicon')
 
 var app = express()
+
+app.use(favicon(__dirname + '/../public/favicon.ico'))
+
 require("./passport")()
 
 const MONGO_URI = process.env.MONGO_URI

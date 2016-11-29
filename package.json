@@ -43,7 +43,8 @@
     "redux-freeze": "^0.1.5",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.4"
+    "reselect": "^2.5.4",
+    "serve-favicon": "^2.3.2"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
