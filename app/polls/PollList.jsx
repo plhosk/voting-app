@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
+import {Match} from 'react-router'
 import { createSelector } from 'reselect'
 import Paper from 'material-ui/Paper'
 import { List, ListItem }  from 'material-ui/List'
@@ -78,7 +79,13 @@ const PollList = ({ pollList, voted, dispatch }) => {
     return (
       <div>
         {/* <CircularProgress size={80} thickness={5} /><br /> */}
-        Poll list is empty
+        <Match pattern='/polls' exactly render={() => (
+          <div style={{padding: '20px 10px'}}>Poll list is empty</div>
+        )}/>
+        <Match pattern='/mypolls' exactly render={() => (
+          <div style={{padding: '20px 10px'}}>You haven't created any polls yet</div>
+        )}/>
+        
       </div>
     )
   }
