@@ -81,8 +81,6 @@ const PollChart = ({ options }) => {
     <div>
       <Paper zDepth={0} style={styles.chartPaper}>
         <Pie
-          // width={600}
-          // height={320}
           data={data}
           options={{
             responsive: true,
@@ -90,14 +88,11 @@ const PollChart = ({ options }) => {
               position: 'average',
               backgroundColor: 'rgba(0,0,0,0.6)',
               bodyFontSize: 16,
+              bodyFontFamily: 'Roboto, sans-serif',
               cornerRadius: 4,
             },
             legend: {
               display: false,
-              // position: 'bottom',
-              // labels: {
-              //   fontSize: 16
-              // }
             }
           }}
         />
