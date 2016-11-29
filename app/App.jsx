@@ -43,7 +43,7 @@ if (process.env.NODE_ENV !== 'production') {
 let middleware = applyMiddleware(...middlewares)
 
 middleware = compose(middleware, persistState(
-  ['autn', 'voted'], // ['auth', 'voted'],
+  ['auth', 'voted'], // ['auth', 'voted'],
   { key: 'voting-app-redux'}
 ))
 
