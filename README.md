@@ -15,8 +15,9 @@ Inspired by AviranAbady's [react-boilerplate](https://github.com/AviranAbady/rea
 ### Development Instructions
 - Install [Node.js](https://nodejs.org/en/)
 - Clone or download git repository: `git clone https://github.com/plhosk/voting-app.git`
+- Enter project folder: `cd voting-app`
 - Install node packages: `npm install`
-- Rename the file ".env.example" in your project directory to ".env" and add the URI to your MongoDB database collection (example: `mongodb://localhost/voting-app`)
-- Build the client bundle: `npm run build` (or `npm run prod` for production)
+- Rename the file ".env.example" in your project directory to ".env" and add the URI to your MongoDB database collection (example: `MONGO_URI=mongodb://localhost/voting-app`)
+- Build the client bundle with webpack: `npm run build` (or `npm run prod` for production)
 - Start the Node/Express server: `npm run start`
 - Visit the server URL in your web browser (default port 5000): [http://localhost:5000](http://localhost:5000)
