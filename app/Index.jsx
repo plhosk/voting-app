@@ -26,7 +26,7 @@ class Index extends React.Component {
         <br />
         <Divider />
         <p>Created in 2016 by <strong>Paul Hoskinson</strong> (plhosk@gmail.com)</p>
-        <p>View or download the code for this project at <a href='https://github.com/plhosk/voting-app'>Github</a>.</p>
+        <p>View or download the code for this project on <a href='https://github.com/plhosk/voting-app'>Github</a>.</p>
         <Divider />
         <h4>Main Technologies</h4>
         <p><strong>Server:</strong> Node/Express, Mongoose, Passport</p>

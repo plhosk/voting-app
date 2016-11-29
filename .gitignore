@@ -1,6 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 # created dynamically by webpack
-# (uncommented for heroku deployment)
 bundle.js
 
 # dependencies
@@ -22,6 +21,7 @@ bundle.js
 npm-debug.log
 testem.log
 /typings
+
 
 # System Files
 .DS_Store
