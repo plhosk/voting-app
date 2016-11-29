@@ -100,12 +100,23 @@ class Poll extends React.Component {
   render() {
 
     const styles = {
+      checkmark: {
+        position: 'relative',
+        top: 4,
+      },
       buttonLink: {
         color: 'inherit', /* blue colors for links too */
         textDecoration: 'inherit' /* no underline */
       },
       chartHolder: {
         margin: 30,
+      },
+      title: {
+        margin: 0,
+      },
+      subtitle: {
+        margin: 10,
+        fontSize: '0.8em',
       }
     }
 
@@ -119,34 +130,29 @@ class Poll extends React.Component {
       return null
     }
 
-    const chartData = []
-    activePoll.options.map((option) => {
-      chartData.push({
-        key: option.votes + ' - ' + option.text,
-        value: option.votes })
-    })
 
     return (
       <div>
-
-        <h1>{activePoll.title}</h1>
-        <p>
+        <h1 style={styles.title}>{activePoll.title}</h1>
+        <p style={styles.subtitle}>
           Created {timeSince(Date.parse(activePoll.creationDate))} ago by {activePoll.owner}
         </p>
         <Divider />
         {didVote(voted, activePoll.pollId) ? (
-          <p>Vote received <ActionDone color={green500} /></p>
+          <p style={styles.subtitle}><ActionDone color={green500} style={styles.checkmark} /> Vote received
+          </p>
         ) : (
           <VoteForm
+            loggedIn={user ? true : false}
             options={activePoll.options}
             onSubmit={this.handleSubmit}
-            initialValues={{pollId: activePoll.pollId}}
+            initialValues={{pollId: activePoll.pollId, }}
           />
         )}
 
         <div style={styles.chartHolder}>
-          {chartData.reduce((a, b) => a + b.value, 0) > 0 ? (
-            <PollChart data={chartData} />
+          {activePoll.options.reduce((a, b) => a + b.votes, 0) > 0 ? (
+            <PollChart options={activePoll.options} />
           ) : (
             <h4>No votes yet!</h4>
           )}

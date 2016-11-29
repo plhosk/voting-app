@@ -26,9 +26,15 @@ router.route('/')
         if (!poll) {
           return res.sendStatus(400)
         }
-        console.log(poll.options.id(req.body.voteSelector))
-        poll.options.id(req.body.voteSelector).votes += 1
-        console.log(poll.options.id(req.body.voteSelector))
+        if (req.body.voteSelector == 'addOption') {
+          poll.options.push({
+            text: req.body.newOptionText,
+            votes: 1
+          })
+        }
+        else {
+          poll.options.id(req.body.voteSelector).votes += 1
+        }
         return poll.save()
       })
       .then(() => {
@@ -38,22 +44,6 @@ router.route('/')
         res.status(500).send(err)
       })
   })
-
-/*
-    Poll.findOne({ 'pollId': req.params.pollId })
-      .then(poll => {
-        if (!poll) {
-          return res.sendStatus(400)
-        }
-        let option = poll.options.id(req.params._id)
-
-        res.status(200).json(poll)
-      })
-      .catch(err => {
-        res.status(500).send(err)
-      })
-  })
-  */
 
   .delete((req, res) => {
     Poll.remove({ 'pollId': req.params.pollId })

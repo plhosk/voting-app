@@ -8,16 +8,15 @@ Paul Hoskinson (plhosk@gmail.com)
 
 Inspired by AviranAbady's [react-boilerplate](https://github.com/AviranAbady/react-boilerplate).
 
-### Technologies
-- Server: Node/Express, MongoDB, Passport
-- Client: React, React-Router v4, Redux, redux-thunk, reselect
+### Main Technologies
+- Server: Node/Express, Mongoose, Passport
+- Client: React, Redux, React-Router v4, Material UI
 
-### User Stories
-- As an authenticated user, I can keep my polls and come back later to access them.
-- As an authenticated user, I can share my polls with my friends.
-- As an authenticated user, I can see the aggregate results of my polls.
-- As an authenticated user, I can delete polls that I decide I don't want anymore.
-- As an authenticated user, I can create a poll with any number of possible items.
-- As an unauthenticated or authenticated user, I can see and vote on everyone's polls.
-- As an unauthenticated or authenticated user, I can see the results of polls in chart form. (This could be implemented using Chart.js or Google Charts.)
-- As an authenticated user, if I don't like the options on a poll, I can create a new option.
+### Development Instructions
+- Install [Node.js](https://nodejs.org/en/)
+- Clone or download git repository: `git clone https://github.com/plhosk/voting-app.git`
+- Install node packages: `npm install`
+- Rename the file ".env.example" in your project directory to ".env" and add the URI to your MongoDB database collection (example: `mongodb://localhost/voting-app`)
+- Build the client bundle: `npm build` (or `npm prod` for production)
+- Start the Node/Express server: `npm start`
+- Visit the server URL in your web browser (default port 5000): [http://localhost:5000](http://localhost:5000)

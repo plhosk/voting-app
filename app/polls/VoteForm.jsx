@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react'
 import Paper from 'material-ui/Paper'
 import { Field, reduxForm } from 'redux-form'
 import {RadioButton} from 'material-ui/RadioButton'
-import {RadioButtonGroup} from 'redux-form-material-ui'
+import {RadioButtonGroup, TextField} from 'redux-form-material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 
 let VoteForm = props => {
@@ -13,18 +13,26 @@ let VoteForm = props => {
       maxWidth: 400,
       padding: '10px 30px',
       margin: '20px auto',
-      // textAlign: 'center',
     },
     radioButtonGroup: {
-      display: 'inline-block',
     },
     radioButton: {
       textAlign: 'left',
-      whiteSpace: 'nowrap',
+      whiteSpace: 'wrap',
       padding: 8,
+    },
+    radioButtonAdd: {
+      textAlign: 'left',
+      whiteSpace: 'wrap',
+      padding: 8,
+      display: props.loggedIn ? 'block' : 'none',
     },
     submitButton: {
       margin: 12,
+    },
+    textField: {
+      fontSize: '1.1em',
+      display: props.loggedIn ? 'block' : 'none',
     }
   }
 
@@ -44,11 +52,20 @@ let VoteForm = props => {
               key={option._id}
               value={option._id}
               label={option.text}
-
             />
           ))}
+          <RadioButton
+            style={styles.radioButtonAdd}
+            value='addOption'
+            label='Add a new option...'
+          />
         </Field>
-        <br />
+        <Field
+          style={styles.textField}
+          name='newOptionText'
+          component={TextField}
+          placeholder='New option'
+        />
         <RaisedButton
           style={styles.submitButton}
           type='submit'
@@ -62,6 +79,7 @@ let VoteForm = props => {
 }
 
 VoteForm.propTypes = {
+  loggedIn: PropTypes.bool.isRequired,
   options: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,

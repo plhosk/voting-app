@@ -5,7 +5,7 @@ var LocalStrategy = require("passport-local").Strategy
 
 passport.use("login", new LocalStrategy(
   function (username, password, done) {
-    console.log("####### AUTHENTICATING " + username + " #######")
+    // console.log("####### AUTHENTICATING " + username + " #######")
     User.findOne({
       username: username
     }, function (err, user) {
