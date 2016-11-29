@@ -25,7 +25,7 @@ class Index extends React.Component {
         {!user && <IndexGuest/>}
         <br />
         <Divider />
-        <p>Created by <strong>Paul Hoskinson</strong> (plhosk@gmail.com)</p>
+        <p>Created in 2016 by <strong>Paul Hoskinson</strong> (plhosk@gmail.com)</p>
         <p>View or download the code for this project at <a href='https://github.com/plhosk/voting-app'>Github</a>.</p>
         <Divider />
         <h4>Main Technologies</h4>
