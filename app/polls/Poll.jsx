@@ -6,6 +6,7 @@ import { recordVote } from '../votedDuck'
 
 import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
+import CircularProgress from 'material-ui/CircularProgress'
 import SocialShare from 'material-ui/svg-icons/social/share'
 import ActionDelete from 'material-ui/svg-icons/action/delete'
 import ActionDone from 'material-ui/svg-icons/action/done'
@@ -122,19 +123,24 @@ class Poll extends React.Component {
       subtitle: {
         margin: 10,
         fontSize: '0.8em',
+      },
+      loading: {
+        padding: '20px 10px',
+        fontSize: '0.8em',
       }
     }
 
     const { user, activePoll, voted, dispatch } = this.props
 
     const isOwner = user ? (user.username == activePoll.owner ? true : false) : false
-    if (!activePoll.hasOwnProperty('title')) {
-      return null
+    if ((!activePoll.hasOwnProperty('title')) || (activePoll.hasOwnProperty('hidePoll') && activePoll.hidePoll)) {
+      return (
+        <div style={styles.loading}>
+          <CircularProgress size={80} thickness={5} /><br /><br />
+          Loading...
+        </div>
+      )
     }
-    if (activePoll.hasOwnProperty('hidePoll') && activePoll.hidePoll) {
-      return null
-    }
-
 
     return (
       <div style={styles.pollDiv}>
