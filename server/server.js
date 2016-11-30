@@ -46,7 +46,7 @@ app.use(express.static('public'))
 
 
 app.use('/api/github', require('./api/github'))
-app.use('/api/github/callback', require('./api/github'))
+app.use('/api/github/callback', require('./api/github/callback'))
 app.use('/api/signup', require('./api/signup'))
 app.use('/api/login', require('./api/login'))
 app.use('/api/logout', require('./api/logout'))

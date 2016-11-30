@@ -4,6 +4,10 @@ var passport = require('passport')
 var router = express.Router({ mergeParams: true })
 
 router.route('/')
-  .get(passport.authenticate('github', {scope: [ 'user:email' ] }))
-
+  .get(passport.authenticate('github', {failureRedirect: '/login' }),
+    (req, res) => {
+      console.log('succeeded')
+      res.redirect('/')
+    })
+    
 module.exports = router
