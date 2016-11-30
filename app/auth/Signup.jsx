@@ -52,31 +52,37 @@ class Signup extends React.Component {
 
     return (
       <div>
-        <h1>Create new account</h1>
-        <form onSubmit={this.onFormSubmit.bind(this)}>
-          <TextField
-            style={styles.textField}
-            ref={username => {this.userInput = username}}
-            id='username'
-            type="text"
-            placeholder="Username"
-            required
-            autoFocus
-          /><br />
-          <TextField
-            style={styles.textField}
-            ref={password => {this.passInput = password}}
-            id='password'
-            type="password"
-            placeholder="Password"
-            required
-          /><br />
-          <RaisedButton
-            style={styles.button}
-            type='submit'
-            label="Create Account"
-          />
-        </form>
+        <div>
+          <h1>Create new account</h1>
+          <form onSubmit={this.onFormSubmit.bind(this)}>
+            <TextField
+              style={styles.textField}
+              ref={username => {this.userInput = username}}
+              id='username'
+              type="text"
+              placeholder="Username"
+              required
+              autoFocus
+            /><br />
+            <TextField
+              style={styles.textField}
+              ref={password => {this.passInput = password}}
+              id='password'
+              type="password"
+              placeholder="Password"
+              required
+            /><br />
+            <RaisedButton
+              style={styles.button}
+              type='submit'
+              label="Create Account"
+            />
+          </form>
+        </div>
+        <br />
+        <div>
+          <h4>Or, authenticate using your <a href='/api/github'>Github account</a></h4>
+        </div>
       </div>
     )
   }
