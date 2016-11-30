@@ -33,7 +33,7 @@ class Index extends React.Component {
         <Divider />
         <h4>Main Technologies</h4>
         <p><strong>Server:</strong> Node/Express, Mongoose, Passport</p>
-        <p><strong>Client:</strong> React, Redux, React-Router v4, Material UI</p>
+        <p><strong>Client:</strong> React, Redux, React-Router, Material UI</p>
       </div>
     )
   }
