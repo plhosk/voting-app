@@ -37,7 +37,7 @@ var GitHubStrategy = require('passport-github2').Strategy
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "https://voting-app-plhosk.herokuapp.com/auth/github/callback"
+    callbackURL: "https://voting-app-plhosk.herokuapp.com/api/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // User.findOrCreate({ username: profile.id, password: 'secret github password' }, function (err, user) {
