@@ -40,8 +40,32 @@ passport.use(new GitHubStrategy({
     callbackURL: "https://voting-app-plhosk.herokuapp.com/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ username: profile.id, password: 'secret github password' }, function (err, user) {
-      return done(err, user);
+    // User.findOrCreate({ username: profile.id, password: 'secret github password' }, function (err, user) {
+    //   return done(err, user);
+    // });
+
+    //check user table for anyone with a facebook ID of profile.id
+    User.findOne({
+      'githubId': profile.id 
+    }, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+      //No user was found... so create a new user with values from Facebook (all the profile. stuff)
+      if (!user) {
+        user = new User({
+          username: profile.login,
+          password: 'secret github password',
+          githubId: profile.id,
+        });
+        user.save(function(err) {
+          if (err) console.log(err);
+          return done(err, user);
+        });
+      } else {
+        //found user. Return
+        return done(err, user);
+      }
     });
   }
 ));

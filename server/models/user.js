@@ -16,7 +16,8 @@ var userSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  displayName: String
+  displayName: String,
+  githubId: String,
 })
 
 userSchema.plugin(AutoIncrement, { inc_field: 'userId' })
