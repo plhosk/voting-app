@@ -45,25 +45,32 @@ passport.use(new GitHubStrategy({
     // });
 
     //check user table for anyone with a facebook ID of profile.id
+    console.log('finding or creating user. ', profile)
     User.findOne({
       'githubId': profile.id 
     }, function(err, user) {
       if (err) {
+        console.log('error finding user.')
         return done(err);
       }
       //No user was found... so create a new user with values from Facebook (all the profile. stuff)
       if (!user) {
+        console.log('no user found. crating new user')
         user = new User({
           username: profile.login,
           password: 'secret github password',
           githubId: profile.id,
         });
         user.save(function(err) {
-          if (err) console.log(err);
+          if (err) {
+            console.log(err);
+          }
+          console.log('Done saving user')
           return done(err, user);
         });
       } else {
         //found user. Return
+        console.log('found user. Return')
         return done(err, user);
       }
     });
