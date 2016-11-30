@@ -21,12 +21,15 @@ const MONGO_URI = process.env.MONGO_URI
 mongoose.connect(MONGO_URI)
 
 
+
 app.set("port", process.env.PORT || 5000)
+app.use(cookieParser())
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: false
 }))
-app.use(cookieParser())
+
 app.use(session({
   secret: "very important secret",
   store: new MongoStore({
@@ -34,31 +37,21 @@ app.use(session({
   }),
   resave: true,
   saveUninitialized: true,
-  cookie: {
-    maxAge: 315569260000
-
-  }
 }))
 
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.static('public'))
 
-// app.use('*', function (req, res, next) {
-//     if (req.isAuthenticated()) {
-//       console.log('user is authenticated')
-//         // returns true if a user already logged in.
-//     }
-//     next();
-// });
+app.use(express.static('public'))
 
 app.use('/api/signup', require('./api/signup'))
 app.use('/api/login', require('./api/login'))
+app.use('/api/logout', require('./api/logout'))
 app.use('/api/polls', require('./api/polls'))
 app.use('/api/polls/:pollId', require('./api/polls/poll'))
 
 // default route for single-page app
-app.use((req, res) => {
+app.use('/', (req, res) => {
   res.sendFile(path.resolve('public/index.html'))
 })
 

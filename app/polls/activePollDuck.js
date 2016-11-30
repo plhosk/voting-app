@@ -27,7 +27,9 @@ export default function reducer(state = {}, action) {
 
 export function fetchPoll(pollId) {
   return function (dispatch) {
-    return fetch('/api/polls/' + pollId)
+    return fetch('/api/polls/' + pollId, {
+      credentials: 'same-origin'
+    })
       .then((response) => {
         if (response.status == 400) {
           dispatch(showErrorMessage(`Poll ${pollId} does not exist.`))
@@ -44,7 +46,10 @@ export function fetchPoll(pollId) {
 
 export function deletePoll(pollId) {
   return function (dispatch) {
-    return fetch('/api/polls/' + pollId, { method: 'DELETE' })
+    return fetch('/api/polls/' + pollId, {
+      method: 'DELETE',
+      credentials: 'same-origin'
+    })
       .then((response) => {
         if (response.status == 400) {
           dispatch(showErrorMessage(`Poll ${pollId} does not exist.`))

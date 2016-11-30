@@ -18,8 +18,9 @@ router.route('/')
   })
 
   .put((req, res) => {
+
     if (req.params.pollId != req.body.pollId) {
-      res.status(400).send('Poll ID in URL does not match request body')
+      return res.status(400).send('Poll ID in URL does not match request body')
     }
     Poll.findOne({ 'pollId': req.params.pollId })
       .then(poll => {
@@ -27,6 +28,9 @@ router.route('/')
           return res.sendStatus(400)
         }
         if (req.body.voteSelector == 'addOption') {
+          if (!req.isAuthenticated()) {
+            return res.sendStatus(401)
+          }
           poll.options.push({
             text: req.body.newOptionText,
             votes: 1
@@ -35,10 +39,9 @@ router.route('/')
         else {
           poll.options.id(req.body.voteSelector).votes += 1
         }
-        return poll.save()
-      })
-      .then(() => {
-        res.sendStatus(200)
+        return poll.save().then(() => {
+          res.sendStatus(200)
+        })
       })
       .catch(err => {
         res.status(500).send(err)
@@ -46,15 +49,22 @@ router.route('/')
   })
 
   .delete((req, res) => {
-    Poll.remove({ 'pollId': req.params.pollId })
+    if (!req.isAuthenticated()) {
+      return res.sendStatus(401)
+    }
+    Poll.findOne({ 'pollId': req.params.pollId })
       .then(poll => {
         if (!poll) {
           return res.sendStatus(400)
         }
-        res.sendStatus(200)
-      })
-      .catch(err => {
-        res.status(500).send(err)
+        if (!req.user || poll.owner != req.user.username) {
+          return res.sendStatus(401)
+        }
+        return Poll.remove({ 'pollId': req.params.pollId }).then(poll => {
+          res.sendStatus(200)
+        }).catch(err => {
+          res.status(500).send(err)
+        })
       })
   })
 

@@ -11,7 +11,9 @@ export default function reducer(state = [], action) {
 
 export function fetchPollList() {
   return function (dispatch) {
-    return fetch('/api/polls').then((response) => {
+    return fetch('/api/polls', {
+      credentials: 'same-origin'
+    }).then((response) => {
       if (response.status == 200) {
         response.json()
           .then((pollList) => {

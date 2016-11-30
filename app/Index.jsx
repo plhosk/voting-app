@@ -7,6 +7,9 @@ import IndexUser from './IndexUser'
 import IndexGuest from './IndexGuest'
 
 const styles = {
+  indexDiv: {
+    padding: '0 20px',
+  },
   logo: {
     width: 120,
     height: 120,
@@ -19,7 +22,7 @@ class Index extends React.Component {
     const {user} = this.props
 
     return (
-      <div>
+      <div style={styles.indexDiv}>
         <ActionCheckCircle style={styles.logo} />
         {user && <IndexUser userName={this.props.user.username}/>}
         {!user && <IndexGuest/>}

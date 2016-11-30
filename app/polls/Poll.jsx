@@ -80,6 +80,7 @@ class Poll extends React.Component {
 
   handleSubmit = (values) => {
     fetch('/api/polls/' + this.props.activePoll.pollId, {
+      credentials: 'same-origin',
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -100,6 +101,9 @@ class Poll extends React.Component {
   render() {
 
     const styles = {
+      pollDiv: {
+        padding: '0 20px',
+      },
       checkmark: {
         position: 'relative',
         top: 4,
@@ -113,6 +117,7 @@ class Poll extends React.Component {
       },
       title: {
         margin: 0,
+        wordWrap: 'break-word',
       },
       subtitle: {
         margin: 10,
@@ -132,8 +137,10 @@ class Poll extends React.Component {
 
 
     return (
-      <div>
-        <h1 style={styles.title}>{activePoll.title}</h1>
+      <div style={styles.pollDiv}>
+        <h1 style={styles.title}>
+          {activePoll.title}
+        </h1>
         <p style={styles.subtitle}>
           Created {timeSince(Date.parse(activePoll.creationDate))} ago by {activePoll.owner}
         </p>

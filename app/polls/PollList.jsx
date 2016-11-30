@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Match} from 'react-router'
 import { createSelector } from 'reselect'
+import CircularProgress from 'material-ui/CircularProgress'
 import Paper from 'material-ui/Paper'
 import { List, ListItem }  from 'material-ui/List'
 import Divider from 'material-ui/Divider'
@@ -65,12 +66,18 @@ const styles = {
   list: {
     maxWidth: 500,
     margin: '0 auto',
+    padding: 0,
   },
   listItem: {
     textAlign: 'left',
     fontSize: '1em',
-    lineHeight: '1.2em'
-  }
+    lineHeight: '1.2em',
+    wordWrap: 'break-word',
+  },
+  empty: {
+    padding: '20px 10px',
+    fontSize: '0.8em',
+  },
 }
 
 const PollList = ({ pollList, voted, dispatch }) => {
@@ -78,12 +85,16 @@ const PollList = ({ pollList, voted, dispatch }) => {
   if (!pollList || pollList.length === 0) {
     return (
       <div>
-        {/* <CircularProgress size={80} thickness={5} /><br /> */}
+        
         <Match pattern='/polls' exactly render={() => (
-          <div style={{padding: '20px 10px'}}>Poll list is empty</div>
+          <div style={styles.empty}>
+            <CircularProgress size={80} thickness={5} /><br /><br />
+            Loading...
+          </div>
         )}/>
         <Match pattern='/mypolls' exactly render={() => (
-          <div style={{padding: '20px 10px'}}>You haven't created any polls yet</div>
+          <div style={styles.empty}>You haven't created any polls yet</div>
+
         )}/>
         
       </div>
@@ -99,7 +110,9 @@ const PollList = ({ pollList, voted, dispatch }) => {
         <div key={poll.pollId}>
           <ListItem
             style={styles.listItem}
-            primaryText={poll.title}
+            primaryText={
+              poll.title.length > 140 ? poll.title.slice(0, 139) + '...' : poll.title
+            }
             secondaryText={`Created ${
               timeSince(Date.parse(poll.creationDate))} ago by ${poll.owner}`}
             leftIcon={<SocialPoll color={cyan500} />}

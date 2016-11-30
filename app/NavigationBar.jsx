@@ -10,15 +10,18 @@ import ActionPermIdentity from 'material-ui/svg-icons/action/perm-identity'
 import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
 import SocialPerson from 'material-ui/svg-icons/social/person'
 
-import {removeUserObject} from './auth/authDuck'
+import { logOut } from './auth/authDuck'
+import { getUserObject } from './auth/authDuck'
 import { navigate } from './routerDuck'
 
 class NavigationBar extends React.Component {
+  
+  componentWillMount() {
+    this.props.dispatch(getUserObject())
+  }
 
   logoutUser() {
-    this.props.dispatch(removeUserObject())
-    this.props.dispatch(navigate( { pathname: '/' }, 'PUSH'))
-
+    this.props.dispatch(logOut())
   }
 
   render() {
@@ -66,15 +69,6 @@ class NavigationBar extends React.Component {
         }
         iconElementRight={
           <span style={styles.rightSpan}>
-            { /* <Link to='/polls'>
-              <FlatButton
-                style={styles.button}
-                labelPosition='after'
-                icon={<ActionCheckCircle />}
-                label={<span style={styles.buttonText}>
-                Browse Polls
-              </span>} />
-            </Link> */ }
             {user &&
               <div>
                 <Link to='/mypolls'>

@@ -16,17 +16,20 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.sendStatus(401)
+  }
   let poll = new Poll()
   poll.title = req.body.title
   poll.owner = req.body.owner
   req.body.optionsCommaSep.split(',').map((option) => {
     poll.options.push({ text: option.trim() })
   })
-  poll.save((err) => {
-    if (err) {
-      res.status(500).send(err)
-    }
+  poll.save().then(() => {
     res.sendStatus(200)
+  })
+  .catch((err) => {
+    res.status(500).send(err)
   })
 })
 

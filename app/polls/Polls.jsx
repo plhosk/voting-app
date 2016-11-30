@@ -7,6 +7,7 @@ import { fetchPollList } from './pollListDuck'
 
 import NewPollForm from './NewPollForm'
 import PollList from './PollList'
+import Divider from 'material-ui/Divider'
 
 class Polls extends React.Component {
 
@@ -16,6 +17,7 @@ class Polls extends React.Component {
 
   handleSubmit = (values) => {
     fetch('/api/polls', {
+      credentials: 'same-origin',
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -33,6 +35,15 @@ class Polls extends React.Component {
   }
   
   render() {
+
+    const styles = {
+      listTitle: {
+        fontSize: '1.2em',
+        margin: 10,
+        marginTop: 20,
+      },
+    }
+
     const { user, pathname } = this.props
     let ownerFilter = ''
     if (pathname === '/mypolls') {
@@ -46,11 +57,19 @@ class Polls extends React.Component {
     return (
       <div>
         { user &&
-          <NewPollForm
-            onSubmit={this.handleSubmit}
-            initialValues={{owner: user.username}}
-          />
+          <div>
+            <NewPollForm
+              onSubmit={this.handleSubmit}
+              initialValues={{owner: user.username}}
+            />
+            <Divider />
+          </div>
         }
+        {ownerFilter.length > 0 ? (
+          <p style={styles.listTitle}>My Polls</p>
+        ) : (
+          <p style={styles.listTitle}>All Polls</p>
+        )}
         <PollList ownerFilter={ownerFilter} />
       </div>
     )
