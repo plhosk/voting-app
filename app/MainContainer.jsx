@@ -18,9 +18,9 @@ const styles = {
     // paddingLeft: 'calc(100vw - 100%)'
 
   },
-  paperWrapper: {
-    width: 'calc(100vw - 17px)'
-  },
+  // paperWrapper: {
+  //   width: 'calc(100vw - 17px)'
+  // },
   paper: {
     margin: '30px auto',
     padding: 0,
@@ -32,7 +32,7 @@ const styles = {
   },
   contentDiv: {
     margin: 0,
-    padding: '20px 0',
+    padding: '20px 0 30px 0',
   }
 }
 

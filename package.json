@@ -6,9 +6,9 @@
   "repository": "https://github.com/plhosk/voting-app.git",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --progress",
-    "prod": "./node_modules/.bin/webpack --progress -p",
-    "hot": "./node_modules/.bin/webpack -w & node ./server/server.js",
+    "build": "webpack --progress",
+    "prod": "webpack --progress -p",
+    "watch": "webpack -w",
     "start": "node ./server/server.js",
     "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
   },
@@ -46,7 +46,8 @@
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
-    "serve-favicon": "^2.3.2"
+    "serve-favicon": "^2.3.2",
+    "source-map-loader": "^0.1.5"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",

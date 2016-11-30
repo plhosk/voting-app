@@ -1,16 +1,20 @@
 const webpack = require('webpack')
+const path = require('path')
 // const CompressionPlugin = require("compression-webpack-plugin")
+
+// const srcPath = path.join(__dirname, 'app');
+const buildPath = path.join(__dirname, 'public');
 
 const prod = process.argv.indexOf('-p') !== -1;
 
 const config = {
+  context: __dirname,
   entry: [ './app/App.jsx'],
   output: {
-    path: __dirname + '/public',
-    filename: 'bundle.js'
+    path: buildPath,
+    filename: 'bundle.js',
   },
   resolve: {
-    //root: __dirname + '/app',
     modules: [
         'node_modules'
     ],
@@ -37,6 +41,9 @@ const config = {
       }
     ]
   },
+  node: {
+    fs: 'empty',
+  },
   plugins: [
     // new CompressionPlugin({
     //   asset: "[path].gz[query]",
@@ -54,18 +61,26 @@ const config = {
 }
 
 if (prod) {
+
+  config.devtool = 'cheap-module-source-map'
+
   config.plugins.push(
     new webpack.DefinePlugin({
       'process.env': {
           'NODE_ENV': `"production"`
       }
   }))
+
 } else {
+
+  config.devtool = 'inline-source-map'
+  
   config.plugins.push(new webpack.DefinePlugin({
       'process.env': {
           'NODE_ENV': `""`
       }
   }))
+
 }
 
 module.exports = config
