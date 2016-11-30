@@ -57,7 +57,7 @@ passport.use(new GitHubStrategy({
       if (!user) {
         console.log('no user found. crating new user')
         user = new User({
-          username: profile.login + '' + Math.floor(Math.random() * 90 + 10),
+          username: profile.username + '' + Math.floor(Math.random() * 90 + 10),
           password: 'secret github password',
           githubId: profile.id,
         });

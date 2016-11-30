@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import Divider from 'material-ui/Divider'
+import Paper from 'material-ui/Paper'
 
 import { showErrorMessage } from '../errorMessageDuck'
 import { updateUserObject} from './authDuck'
@@ -52,7 +54,17 @@ class LoginComponent extends React.Component {
       button: {
         maxWidth: 200,
         marginTop: 10,
-      }
+      },
+      githubImg: {
+        verticalAlign: 'middle',
+        width: 96,
+        height: 96,
+        opacity: 0.8,
+      },
+      githubPaper: {
+        display: 'inline-block',
+        margin: 10,
+      },
     }
 
     if(this.props.user) {
@@ -65,31 +77,47 @@ class LoginComponent extends React.Component {
 
     return (
       <div>
-        <h1>Log in</h1>
-        <form onSubmit={this.onLoginSubmit.bind(this)}>
-          <TextField
-            style={styles.textField}
-            ref={username => {this.userInput = username}}
-            id='username'
-            type="text"
-            placeholder="Username"
-            required
-            autoFocus
-          /><br />
-          <TextField
-            style={styles.textField}
-            ref={password => {this.passInput = password}}
-            id='password'
-            type="password"
-            placeholder="Password"
-            required
-          /><br />
-          <RaisedButton
-            style={styles.button}
-            type='submit'
-            label='Log in'
-          />
-        </form>
+        <div>
+          <h1>Log in</h1>
+          <form onSubmit={this.onLoginSubmit.bind(this)}>
+            <TextField
+              style={styles.textField}
+              ref={username => {this.userInput = username}}
+              id='username'
+              type="text"
+              placeholder="Username"
+              required
+              autoFocus
+            /><br />
+            <TextField
+              style={styles.textField}
+              ref={password => {this.passInput = password}}
+              id='password'
+              type="password"
+              placeholder="Password"
+              required
+            /><br />
+            <RaisedButton
+              style={styles.button}
+              type='submit'
+              label='Log in'
+            />
+          </form>
+        </div>
+        <br />
+        <div>
+          <Divider />
+          <p>Or, click to authenticate using your GitHub account:</p>
+          <Paper style={styles.githubPaper} zDepth={2}>
+            <a href='/api/github'>
+              <img
+                style={styles.githubImg}
+                src='/GitHub-Mark.png'
+                alt='Github'
+              />
+            </a>
+          </Paper>
+        </div>
       </div>
     )
   }

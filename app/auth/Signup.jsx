@@ -6,6 +6,8 @@ import { navigate } from '../routerDuck'
 
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import Paper from 'material-ui/Paper'
+import Divider from 'material-ui/Divider'
 
 class Signup extends React.Component {
 
@@ -47,7 +49,17 @@ class Signup extends React.Component {
       button: {
         maxWidth: 200,
         marginTop: 10,
-      }
+      },
+      githubImg: {
+        verticalAlign: 'middle',
+        width: 96,
+        height: 96,
+        opacity: 0.8,
+      },
+      githubPaper: {
+        display: 'inline-block',
+        margin: 10,
+      },
     }
 
     return (
@@ -81,7 +93,17 @@ class Signup extends React.Component {
         </div>
         <br />
         <div>
-          <h4>Or, authenticate using your <a href='/api/github'>Github account</a></h4>
+          <Divider />
+          <p>Or, click to authenticate using your GitHub account:</p>
+          <Paper style={styles.githubPaper} zDepth={2}>
+            <a href='/api/github'>
+              <img
+                style={styles.githubImg}
+                src='/GitHub-Mark.png'
+                alt='Github'
+              />
+            </a>
+          </Paper>
         </div>
       </div>
     )
