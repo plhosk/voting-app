@@ -6,8 +6,8 @@ Paul Hoskinson (plhosk@gmail.com)
 
 ---
 
-- [Use the live version on Heroku](https://voting-app-plhosk.herokuapp.com/)
-- [Github Repository](https://github.com/plhosk/voting-app)
+#### [Try the live version on Heroku](https://voting-app-plhosk.herokuapp.com/)
+#### [Github Repository](https://github.com/plhosk/voting-app)
 
 Inspired by AviranAbady's [react-boilerplate](https://github.com/AviranAbady/react-boilerplate).
 
