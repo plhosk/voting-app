@@ -9,6 +9,7 @@ router.route('/')
 router.route('/callback')
   .get(passport.authenticate('github', {failureRedirect: '/login' }),
     (req, res) => {
+      console.log('succeeded')
       res.redirect('/')
     })
 
