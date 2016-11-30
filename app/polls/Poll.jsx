@@ -170,7 +170,12 @@ class Poll extends React.Component {
             <h4>No votes yet!</h4>
           )}
         </div>
-        
+        <RaisedButton
+          label='Share on Twitter'
+          style={styles.button}
+          onClick={() => twitterShare(activePoll.title, activePoll.pollId)}
+          icon={<SocialShare />}
+        />
         { isOwner && 
           <div>
             <RaisedButton
