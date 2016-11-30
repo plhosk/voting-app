@@ -37,7 +37,7 @@ var GitHubStrategy = require('passport-github2').Strategy
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "https://voting-app-plhosk.herokuapp.com/api/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL
   },
   function(accessToken, refreshToken, profile, done) {
     // User.findOrCreate({ username: profile.id, password: 'secret github password' }, function (err, user) {
@@ -45,17 +45,14 @@ passport.use(new GitHubStrategy({
     // });
 
     //check user table for anyone with a facebook ID of profile.id
-    console.log('finding or creating user. ', profile)
     User.findOne({
       'githubId': profile.id 
     }, function(err, user) {
       if (err) {
-        console.log('error finding user.')
         return done(err);
       }
       //No user was found... so create a new user with values from Facebook (all the profile. stuff)
       if (!user) {
-        console.log('no user found. crating new user')
         user = new User({
           username: profile.username + '' + Math.floor(Math.random() * 90 + 10),
           password: 'secret github password',
@@ -63,14 +60,12 @@ passport.use(new GitHubStrategy({
         });
         user.save(function(err) {
           if (err) {
-            console.log(err);
+            console.log(err); //eslint-disable-line
           }
-          console.log('Done saving user')
           return done(err, user);
         });
       } else {
         //found user. Return
-        console.log('found user. Return')
         return done(err, user);
       }
     });

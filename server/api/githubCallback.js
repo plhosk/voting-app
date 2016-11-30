@@ -6,7 +6,6 @@ var router = express.Router({ mergeParams: true })
 router.route('/')
   .get(passport.authenticate('github', {failureRedirect: '/login' }),
     (req, res) => {
-      console.log('succeeded')
       res.redirect('/')
     })
     
