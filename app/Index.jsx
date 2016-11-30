@@ -32,8 +32,8 @@ class Index extends React.Component {
         <p>View or download the code for this project on <a href='https://github.com/plhosk/voting-app'>Github</a>.</p>
         <Divider />
         <h4>Main Technologies</h4>
-        <p><strong>Server:</strong> Node/Express, Mongoose, Passport</p>
         <p><strong>Client:</strong> React, Redux, React-Router, Material UI</p>
+        <p><strong>Server:</strong> Node/Express, Mongoose, Passport</p>
       </div>
     )
   }

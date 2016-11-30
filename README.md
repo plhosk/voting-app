@@ -11,8 +11,8 @@ Paul Hoskinson (plhosk@gmail.com)
 Inspired by AviranAbady's [react-boilerplate](https://github.com/AviranAbady/react-boilerplate).
 
 ### Main Technologies
-- Server: Node/Express, Mongoose, Passport
 - Client: React, Redux, React-Router, Material UI
+- Server: Node/Express, Mongoose, Passport
 
 ### Development Instructions
 - Install [Node.js](https://nodejs.org/en/)
