@@ -40,7 +40,7 @@ passport.use(new GitHubStrategy({
     callbackURL: "https://voting-app-plhosk.herokuapp.com/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ githubId: profile.id }, function (err, user) {
+    User.findOrCreate({ username: profile.id, password: 'secret github password' }, function (err, user) {
       return done(err, user);
     });
   }
