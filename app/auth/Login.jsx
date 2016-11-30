@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import Divider from 'material-ui/Divider'
-import Paper from 'material-ui/Paper'
+
+import Github from './Github'
 
 import { showErrorMessage } from '../errorMessageDuck'
 import { updateUserObject} from './authDuck'
@@ -55,16 +55,6 @@ class LoginComponent extends React.Component {
         maxWidth: 200,
         marginTop: 10,
       },
-      githubImg: {
-        verticalAlign: 'middle',
-        width: 96,
-        height: 96,
-        opacity: 0.8,
-      },
-      githubPaper: {
-        display: 'inline-block',
-        margin: 10,
-      },
     }
 
     if(this.props.user) {
@@ -105,19 +95,7 @@ class LoginComponent extends React.Component {
           </form>
         </div>
         <br />
-        <div>
-          <Divider />
-          <p>Or, click to authenticate using your GitHub account:</p>
-          <Paper style={styles.githubPaper} zDepth={2}>
-            <a href='/api/github'>
-              <img
-                style={styles.githubImg}
-                src='/GitHub-Mark.png'
-                alt='Github'
-              />
-            </a>
-          </Paper>
-        </div>
+        <Github />
       </div>
     )
   }

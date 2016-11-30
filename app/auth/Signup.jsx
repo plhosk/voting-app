@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { showErrorMessage } from '../errorMessageDuck'
 import { navigate } from '../routerDuck'
 
+import Github from './Github'
+
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import Paper from 'material-ui/Paper'
-import Divider from 'material-ui/Divider'
 
 class Signup extends React.Component {
 
@@ -92,19 +92,7 @@ class Signup extends React.Component {
           </form>
         </div>
         <br />
-        <div>
-          <Divider />
-          <p>Or, click to authenticate using your GitHub account:</p>
-          <Paper style={styles.githubPaper} zDepth={2}>
-            <a href='/api/github'>
-              <img
-                style={styles.githubImg}
-                src='/GitHub-Mark.png'
-                alt='Github'
-              />
-            </a>
-          </Paper>
-        </div>
+        <Github />
       </div>
     )
   }
