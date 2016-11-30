@@ -91,6 +91,12 @@ const PollChart = ({ options }) => {
               bodyFontFamily: 'Roboto, sans-serif',
               cornerRadius: 4,
             },
+            elements: {
+              arc: {
+                borderColor: "#fff",
+                borderWidth: 0,
+              },
+            },
             legend: {
               display: false,
             }
