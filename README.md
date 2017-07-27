@@ -1,6 +1,9 @@
 ## Voting App
 Paul Hoskinson (plhosk@gmail.com)
 
+<img alt="screenshot" src="https://github.com/plhosk/temp/raw/master/voting-app.png" width="512">
+
+
 - Vote on user-submitted polls.
 - Log in to submit your own poll.
 - Try the live version on Heroku: [https://voting-app-plhosk.herokuapp.com/](https://voting-app-plhosk.herokuapp.com/)
