@@ -27,7 +27,7 @@
     "history": "4.4.1",
     "isomorphic-fetch": "2.2.1",
     "material-ui": "0.16.4",
-    "mongoose": "4.13.21",
+    "mongoose": "5.7.5",
     "mongoose-sequence": "3.1.0",
     "passport": "0.3.2",
     "passport-github2": "0.1.10",
